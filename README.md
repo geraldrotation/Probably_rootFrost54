@@ -23,10 +23,10 @@ Features
 
 Hotkeys
 ====================
-L-SHIFT Pet Freeze
-R-SHIFT AOE (Flamestrike+Blizz)
-L-ALT Pause (pending future PE release)
-L-CTRL Mouseover Dot
+- L-SHIFT Pet Freeze
+- R-SHIFT AOE (Flamestrike+Blizz)
+- L-ALT Pause (pending future PE release)
+- L-CTRL Mouseover Dot
 
 Todo
 ====================
