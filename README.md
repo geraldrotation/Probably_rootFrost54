@@ -18,6 +18,13 @@ Features
 - Smart Evocation
 - Synapse Springs Syncing
 - Dot Tracking (Living Bomb)
+- Hotkeys
+
+Hotkeys
+====================
+L-SHIFT Pet Freeze
+R-SHIFT AOE (Flamestrike+Blizz)
+L-ALT Pause (pending future PE release)
 
 Todo
 ====================
@@ -26,4 +33,3 @@ Todo
 - Boss Dotting
 - Healthstone
 - 5.4 Events
-- Hotkeys
