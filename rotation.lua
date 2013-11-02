@@ -118,8 +118,9 @@ end
 
 ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	-- AOE
-	{ "Flamestrike", "modifier.shift", "ground" },
-	{ "Blizzard", "modifier.shift", "ground" },
+	{ "Flamestrike", "modifier.rshift", "ground" },
+	{ "Blizzard", "modifier.rshift", "ground" },
+  { "Freeze", "modifier.lshift", "ground" },
 	
 	-- Support
 	{ "Ice Barrier",
