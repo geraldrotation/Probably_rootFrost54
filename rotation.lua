@@ -128,7 +128,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Evocation", "modifier.ralt" },
   { "!/use healthstone",
     {
-      "player.buff(Dark Regeneration)",
+      "player.health < 40",
       (function()return GetItemCooldown(5512) end)
     }
   },
@@ -383,6 +383,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   {
 	  -- Buffs
     { "Evocation", "modifier.ralt" },
+    { "Rune of Power", "modifier.ralt", "ground" },
 	  { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
 	  { "Frost Armor", "!player.buff(Frost Armor)" },
 	  { "Conjure Mana Gem", (function() return rootFrost.needsManagem() end) },
