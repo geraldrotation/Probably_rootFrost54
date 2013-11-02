@@ -128,8 +128,10 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "pause", "modifier.lalt" },
   { "Ice Block", "player.health < 35" },
   { "Cold Snap", "player.health <= 30" },
+  { "Healing Touch", "player.health < 40" },
   { "Ring of Frost", "modifier.rcontrol" },
   { "Summon Water Elemental", (function() return rootFrost.needsPet() end) },
+  { "Arcane Torrent", "player.mana < 92" }
   { "Evocation",
     {
       "modifier.ralt",
@@ -193,6 +195,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	{ "Presence of Mind", "modifier.cooldowns" },
   { "Mirror Image", "modifier.cooldowns" },
   { "Lifeblood", "modifier.cooldowns" },
+  { "Berserking", "modifier.cooldowns" },
+  { "Blood Fury", "modifier.cooldowns" },
 	{ "Frozen Orb",
 		{
 			"!player.moving",
