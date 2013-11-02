@@ -17,10 +17,11 @@ Features
 - Ice Barrier
 - Smart Evocation
 - Synapse Springs Syncing
+- Dot Tracking (Living Bomb)
 
 Todo
 ====================
-- Dot Tracking
+
 - Mouseover Dotting
 - Boss Dotting
 - Healthstone
