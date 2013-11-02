@@ -1,0 +1,8 @@
+## Interface: 50400
+## Title: Probably - rootFrost54 (Mage)
+## Notes: ProbablyEngine Frost Mage Profile for 5.4
+## Dependencies: Probably
+## Author: rootlsuer
+## Version: v541.0
+
+rotation.lua
