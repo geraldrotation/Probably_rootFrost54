@@ -125,7 +125,21 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	
 	-- Support
   { "pause", "modifier.lalt" },
-  { "Evocation", "modifier.ralt" },
+  { "Evocation",
+    {
+      "modifier.ralt",
+      "player.spell(Evocation).casted < 1",
+      (function() return IsPlayerSpell(114003) end)
+    }
+  },
+  { "Rune of Power",
+    {
+      "modifier.ralt",
+      "player.spell(Rune of Power).casted < 1",
+      (function() return IsPlayerSpell(116011) end)
+    },
+    "ground"
+  },
   { "!/use healthstone",
     {
       "player.health < 40",
@@ -142,7 +156,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 		{
 			"!player.buff(Invoker's Energy)",
 			"!player.moving",
-			"player.spell(Evocation).casted < 1"
+			"player.spell(Evocation).casted < 1",
+      (function() return IsPlayerSpell(114003) end)
 		}
 	},
 	{ "Evocation",
@@ -151,7 +166,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.moving",
 			"!player.spell.cooldown(Icy Veins)",
 			"!player.buff(Alter Time)",
-			"player.spell(Evocation).casted < 1"
+			"player.spell(Evocation).casted < 1",
+      (function() return IsPlayerSpell(114003) end)
 		}
 	},
 	{ "Evocation",
@@ -160,7 +176,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.moving",
 			"!player.spell.cooldown(Icy Veins)",
 			"!player.buff(Alter Time)",
-			"player.spell(Evocation).casted < 1"
+			"player.spell(Evocation).casted < 1",
+      (function() return IsPlayerSpell(114003) end)
 		}
 	},
 
@@ -383,7 +400,6 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   {
 	  -- Buffs
     { "Evocation", "modifier.ralt" },
-    { "Rune of Power", "modifier.ralt", "ground" },
 	  { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
 	  { "Frost Armor", "!player.buff(Frost Armor)" },
 	  { "Conjure Mana Gem", (function() return rootFrost.needsManagem() end) },
