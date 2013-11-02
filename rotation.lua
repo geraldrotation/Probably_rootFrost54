@@ -125,6 +125,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	
 	-- Support
   { "pause", "modifier.lalt" },
+  { "!/use healthstone",
+    {
+      "player.buff(Dark Regeneration)",
+      (function()return GetItemCooldown(5512) end)
+    }
+  },
 	{ "Ice Barrier",
 		{
 			"!player.buff(Alter Time)",
@@ -159,9 +165,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 
 	{ "!/use Potion of the Jade Serpent", (function() return rootFrost.usePot() end) },
 	{ "!/use Mana Gem", (function() return rootFrost.useManagem() end) },
-	
-
-    --Cooldowns
+  
+  --Cooldowns
 	{ "Presence of Mind", "modifier.cooldowns" },
     { "Mirror Image", "modifier.cooldowns" },
 	{ "Frozen Orb",
@@ -211,14 +216,14 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.moving"
 		}
 	},
-    
-    --Rotation
 	{ "Alter Time",
 		{
 			"player.buff(Alter Time)",
 			"player.moving"
 		}
 	},
+  
+  -- Dots
   { "Nether Tempest", "!target.debuff(Nether Tempest)" },
   { "Nether Tempest",
     {
@@ -264,7 +269,9 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
     "mouseover"
   },
-    { "Frostfire Bolt",
+  
+  -- Actions
+  { "Frostfire Bolt",
 		{
 			"player.buff(Brain Freeze)",
 			"player.spell(Icy Veins).cooldown > 2"
