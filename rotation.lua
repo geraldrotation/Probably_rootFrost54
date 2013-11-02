@@ -125,6 +125,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	
 	-- Support
   { "pause", "modifier.lalt" },
+  { "Evocation", "modifier.ralt" },
   { "!/use healthstone",
     {
       "player.buff(Dark Regeneration)",
@@ -340,6 +341,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Frostfire Bolt",
 		{
 			"player.buff(Brain Freeze)",
+			"!modifier.cooldowns"
+		}
+	},
+  { "Frostfire Bolt",
+		{
+			"player.buff(Brain Freeze)",
 			"player.spell(Icy Veins).cooldown > 2"
 		}
 	},
@@ -349,13 +356,19 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"player.buff(Frozen Thoughts)"
 		}
 	},
-    { "Ice Lance",
+  { "Ice Lance",
+		{
+			"player.buff(Fingers of Frost).count > 1",
+			"!modifier.cooldowns"
+		}
+	},
+  { "Ice Lance",
 		{
 			"player.buff(Fingers of Frost).count > 1",
 			"player.spell(Icy Veins).cooldown > 2"
 		}
 	},
-    { "Ice Lance",
+  { "Ice Lance",
 		{
 			"player.buff(Fingers of Frost)",
 			"player.buff(Fingers of Frost).duration < 2"
@@ -369,6 +382,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   },
   {
 	  -- Buffs
+    { "Evocation", "modifier.ralt" },
 	  { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
 	  { "Frost Armor", "!player.buff(Frost Armor)" },
 	  { "Conjure Mana Gem", (function() return rootFrost.needsManagem() end) },
