@@ -2,7 +2,54 @@
 -- Custom Frost Mage Rotation
 -- Created on Nov 2nd 2013 6:08 am
 
-rootFrost = { }
+local rootFrost = { }
+
+rootFrost.dots = { }
+
+function rootFrost_OnEvent(self,event,...)
+	if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED" then
+		if #rootFrost.dots > 0 then rootFrost.dots = {} end
+	end
+  if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+    local subEvent		= select(2, ...)
+		local source		= select(5, ...)
+		local destGUID		= select(8, ...)
+		local destination	= select(9, ...)
+		local spellID		= select(12, ...)
+		local spell			= select(13, ...)
+		local damage		= select(15, ...)
+		local critical		= select(21, ...)
+    
+		if subEvent == "UNIT_DIED" then
+			if #rootFrost.dots > 0 then
+				for i=1,#rootFrost.dots do
+					if #rootFrost.dots[i].guid == destGUID then tremove(rootFrost.dots, i) return true end
+				end
+			end
+		end
+    
+    if UnitName("player") == source then
+      if subEvent == "SPELL_AURA_REMOVED" then
+        if spellID == 24844 then
+          for i=1,#rootFrost.dots do
+            if #rootFrost.dots[i].guid == destGUID then tremove(rootFrost.dots, i) return true end
+          end
+        end
+      end
+    
+      if subEvent == "SPELL_AURA_APPLIED" then
+        if spellID == 24844 then
+            for i=1,#rootFrost.dots do
+              if rootFrost.dots[i].guid == destGUID and rootFrost.dots[i].spellID == spellID then
+                return false
+              end
+            end
+            table.insert( rootFrost.dots, {guid = destGUID, spellID = spellID})
+        end
+      end 
+    end
+  end
+end
 
 function rootFrost.usePot()
 	if not (UnitBuff("player", 2825) or
