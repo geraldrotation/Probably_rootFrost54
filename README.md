@@ -26,6 +26,7 @@ Hotkeys
 - L-SHIFT Pet Freeze
 - R-SHIFT AOE (Flamestrike+Blizz)
 - L-ALT Pause (pending future PE release)
+- R-ALT Manual Evocate
 - L-CTRL Mouseover Dot
 
 Todo
