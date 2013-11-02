@@ -126,7 +126,9 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	
 	-- Support
   { "pause", "modifier.lalt" },
-  { "Summon Water Elemental", (function() return rootFrost.needsPet() end) }
+  { "Ice Block", "player.health < 35" },
+  { "Cold Snap", "player.health <= 30" },
+  { "Summon Water Elemental", (function() return rootFrost.needsPet() end) },
   { "Evocation",
     {
       "modifier.ralt",
