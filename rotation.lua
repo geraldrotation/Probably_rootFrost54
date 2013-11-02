@@ -100,10 +100,10 @@ function rootFrost.useManagem()
 	local Max = UnitPowerMax("player")
 	local Mana = 100 * UnitPower("player") / Max
 	if Mana < 70 then
-		if GetItemCount(81901, nil, true) > 1 then
+		if GetItemCount(81901, nil, true) >= 1 then
 			if GetItemCooldown(81901) == 0 then return true end
 		end
-		if GetItemCount(36799, nil, true) < 3 then
+		if GetItemCount(36799, nil, true) >= 1 then
 		    if GetItemCooldown(36799) == 0 then return true end
 		end
 	end
