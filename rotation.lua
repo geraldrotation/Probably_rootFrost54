@@ -128,6 +128,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "pause", "modifier.lalt" },
   { "Ice Block", "player.health < 35" },
   { "Cold Snap", "player.health <= 30" },
+  { "Ring of Frost", "modifier.rcontrol" },
   { "Summon Water Elemental", (function() return rootFrost.needsPet() end) },
   { "Evocation",
     {
@@ -191,6 +192,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   --Cooldowns
 	{ "Presence of Mind", "modifier.cooldowns" },
   { "Mirror Image", "modifier.cooldowns" },
+  { "Lifeblood", "modifier.cooldowns" },
 	{ "Frozen Orb",
 		{
 			"!player.moving",
@@ -402,7 +404,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "Ice Lance", "player.moving" }
   },
   {
-	  -- OoC Buffs
+	  -- Out of Combat
     { "Evocation", "modifier.ralt" },
 	  { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
 	  { "Frost Armor", "!player.buff(Frost Armor)" },
