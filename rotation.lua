@@ -168,7 +168,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   
   --Cooldowns
 	{ "Presence of Mind", "modifier.cooldowns" },
-    { "Mirror Image", "modifier.cooldowns" },
+  { "Mirror Image", "modifier.cooldowns" },
 	{ "Frozen Orb",
 		{
 			"!player.moving",
@@ -269,6 +269,72 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
     "mouseover"
   },
+  
+  -- Boss Dots
+  { "Living Bomb",
+    {
+      "!boss1.debuff(Living Bomb)",
+      (function() return #rootFrost.dots<3 end)
+    },
+    "boss1"
+  },
+	{ "Living Bomb",
+    {
+      "boss1.debuff(Living Bomb)",
+      "boss1.debuff(Living Bomb).duration < 1",
+      (function() return #rootFrost.dots<=3 end)
+    },
+    "boss1"
+  },
+  { "Living Bomb",
+    {
+      "!boss2.debuff(Living Bomb)",
+      (function() return #rootFrost.dots<3 end)
+    },
+    "boss2"
+  },
+	{ "Living Bomb",
+    {
+      "boss2.debuff(Living Bomb)",
+      "boss2.debuff(Living Bomb).duration < 1",
+      (function() return #rootFrost.dots<=3 end)
+    },
+    "boss2"
+  },
+  { "Living Bomb",
+    {
+      "!boss3.debuff(Living Bomb)",
+      (function() return #rootFrost.dots<3 end)
+    },
+    "boss3"
+  },
+	{ "Living Bomb",
+    {
+      "boss3.debuff(Living Bomb)",
+      "boss3.debuff(Living Bomb).duration < 1",
+      (function() return #rootFrost.dots<=3 end)
+    },
+    "boss3"
+  },
+  { "Living Bomb",
+    {
+      "!boss4.debuff(Living Bomb)",
+      (function() return #rootFrost.dots<3 end)
+    },
+    "boss4"
+  },
+	{ "Living Bomb",
+    {
+      "boss4.debuff(Living Bomb)",
+      "boss4.debuff(Living Bomb).duration < 1",
+      (function() return #rootFrost.dots<=3 end)
+    },
+    "boss4"
+  },
+  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss1" },
+  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss2" },
+  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss3" },
+  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss4" },  
   
   -- Actions
   { "Frostfire Bolt",
