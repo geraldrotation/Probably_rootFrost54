@@ -6,7 +6,9 @@ local rootFrost = { }
 
 rootFrost.dots = { }
 
-function rootFrost_OnEvent(self,event,...)
+rootFrost.tempNum = 0
+
+function rootFrost.eventHandler(self, event, ...)
 	if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED" then
 		if #rootFrost.dots > 0 then rootFrost.dots = {} end
 	end
@@ -17,34 +19,54 @@ function rootFrost_OnEvent(self,event,...)
 		local spellID		= select(12, ...)
     
 		if subEvent == "UNIT_DIED" then
-			if #rootFrost.dots > 0 then
+			if rootFrost.dots > 0 then
 				for i=1,#rootFrost.dots do
-					if #rootFrost.dots[i].guid == destGUID then tremove(rootFrost.dots, i) return true end
+					if rootFrost.dots[i].guid == destGUID then
+            tremove(rootFrost.dots, i)
+            return true
+          end
 				end
 			end
 		end
     
     if UnitName("player") == source then
       if subEvent == "SPELL_AURA_REMOVED" then
-        if spellID == 24844 then
+        if spellID == 44457 then
           for i=1,#rootFrost.dots do
-            if #rootFrost.dots[i].guid == destGUID then tremove(rootFrost.dots, i) return true end
+            if rootFrost.dots[i].guid == destGUID then
+              tremove(rootFrost.dots, i)
+              return true
+            end
           end
         end
       end
     
       if subEvent == "SPELL_AURA_APPLIED" then
-        if spellID == 24844 then
+        if spellID == 44457 then
             for i=1,#rootFrost.dots do
               if rootFrost.dots[i].guid == destGUID and rootFrost.dots[i].spellID == spellID then
-                return false
+                local existingDot = true
               end
             end
-            table.insert( rootFrost.dots, {guid = destGUID, spellID = spellID})
+            if not existingDot then
+              table.insert(rootFrost.dots, {guid = destGUID, spellID = spellID})
+            end
         end
       end 
     end
   end
+end
+
+rootFrost.eventFrame = CreateFrame("Frame")
+rootFrost.eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+rootFrost.eventFrame:SetScript("OnEvent", rootFrost.eventHandler)
+rootFrost.eventFrame:Show()
+
+function rootFrost.numDots()
+  if #rootFrost.dots ~= rootFrost.tempNum then
+    rootFrost.tempNum = #rootFrost.dots
+  end
+  return #rootFrost.dots
 end
 
 function rootFrost.usePot()
@@ -61,7 +83,6 @@ function rootFrost.usePot()
 	if ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')] then
 		local ttdest = ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')]['ttdest']
 		local ttdsamp = ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')]['ttdsamples']
-		print("ttdest:" .. ttdest .. " ttdsamp:" .. ttdsamp)
 		if (ttdest / ttdsamp) > 30 then return false end
 	end
 	return true 
@@ -195,9 +216,19 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"player.moving"
 		}
 	},
-    { "Living Bomb", "!target.debuff(Living Bomb)" },
-	{ "Living Bomb", "target.debuff(Living Bomb).duration < 2" },
-
+  { "Living Bomb",
+    {
+      "!target.debuff(Living Bomb)",
+      (function() return #rootFrost.dots<3 end)
+    }
+  },
+	{ "Living Bomb",
+    {
+      "target.debuff(Living Bomb)",
+      "target.debuff(Living Bomb).duration < 1",
+      (function() return #rootFrost.dots<=3 end)
+    }
+  },
     { "Frostfire Bolt",
 		{
 			"player.buff(Brain Freeze)",
