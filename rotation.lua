@@ -14,11 +14,7 @@ function rootFrost_OnEvent(self,event,...)
     local subEvent		= select(2, ...)
 		local source		= select(5, ...)
 		local destGUID		= select(8, ...)
-		local destination	= select(9, ...)
 		local spellID		= select(12, ...)
-		local spell			= select(13, ...)
-		local damage		= select(15, ...)
-		local critical		= select(21, ...)
     
 		if subEvent == "UNIT_DIED" then
 			if #rootFrost.dots > 0 then
