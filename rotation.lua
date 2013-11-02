@@ -42,10 +42,11 @@ function rootFrost.eventHandler(self, event, ...)
       end
     
       if subEvent == "SPELL_AURA_APPLIED" then
+        local existingDot = false
         if spellID == 44457 then
             for i=1,#rootFrost.dots do
               if rootFrost.dots[i].guid == destGUID and rootFrost.dots[i].spellID == spellID then
-                local existingDot = true
+                existingDot = true
               end
             end
             if not existingDot then
@@ -218,6 +219,21 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"player.moving"
 		}
 	},
+  { "Nether Tempest", "!target.debuff(Nether Tempest)" },
+  { "Nether Tempest",
+    {
+      "modifier.lcontrol",
+      "!mouseover.debuff(Nether Tempest)"
+    },
+    "mouseover"
+  },
+  { "Frost Bomb" },
+  { "Frost Bomb",
+    {
+      "modifier.lcontrol"
+    },
+    "mouseover"
+  },
   { "Living Bomb",
     {
       "!target.debuff(Living Bomb)",
