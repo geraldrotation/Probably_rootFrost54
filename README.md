@@ -9,7 +9,7 @@ by a high-ranking player.
 Features
 ====================
 - Pet Management
-- Buffs
+- Self Buffs
 - Cooldowns
 - Gems & Potions
 - Ice Barrier
