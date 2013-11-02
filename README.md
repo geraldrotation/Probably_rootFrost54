@@ -19,6 +19,7 @@ Features
 - Hotkeys
 - Mouseover Dotting
 - Healthstone
+- Boss Dotting
 
 Hotkeys
 ====================
@@ -29,5 +30,4 @@ L-CTRL Mouseover Dot
 
 Todo
 ====================
-- Boss Dotting
 - 5.4 Events
