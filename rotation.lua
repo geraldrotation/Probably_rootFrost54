@@ -123,6 +123,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Freeze", "modifier.lshift", "ground" },
 	
 	-- Support
+  { "pause", "modifier.lalt" },
 	{ "Ice Barrier",
 		{
 			"!player.buff(Alter Time)",
@@ -229,6 +230,23 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       "target.debuff(Living Bomb).duration < 1",
       (function() return #rootFrost.dots<=3 end)
     }
+  },
+  { "Living Bomb",
+    {
+      "modifier.lcontrol",
+      "!mouseover.debuff(Living Bomb)",
+      (function() return #rootFrost.dots<3 end)
+    },
+    "mouseover"
+  },
+	{ "Living Bomb",
+    {
+      "modifier.lcontrol",
+      "mouseover.debuff(Living Bomb)",
+      "mouseover.debuff(Living Bomb).duration < 1",
+      (function() return #rootFrost.dots<=3 end)
+    },
+    "mouseover"
   },
     { "Frostfire Bolt",
 		{
