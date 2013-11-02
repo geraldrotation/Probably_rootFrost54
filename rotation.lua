@@ -131,7 +131,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Healing Touch", "player.health < 40" },
   { "Ring of Frost", "modifier.rcontrol" },
   { "Summon Water Elemental", (function() return rootFrost.needsPet() end) },
-  { "Arcane Torrent", "player.mana < 92" }
+  { "Arcane Torrent", "player.mana < 92" },
   { "Evocation",
     {
       "modifier.ralt",
