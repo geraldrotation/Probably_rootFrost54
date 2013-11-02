@@ -18,6 +18,7 @@ Features
 - Dot Tracking (Living Bomb)
 - Hotkeys
 - Mouseover Dotting
+- Healthstone
 
 Hotkeys
 ====================
@@ -29,5 +30,4 @@ L-CTRL Mouseover Dot
 Todo
 ====================
 - Boss Dotting
-- Healthstone
 - 5.4 Events
