@@ -118,7 +118,8 @@ function rootFrost.needsPet()
 end
 
 ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
-	-- AOE
+  -- Combat
+	-- AoE
 	{ "Flamestrike", "modifier.rshift", "ground" },
 	{ "Blizzard", "modifier.rshift", "ground" },
   { "Freeze", "modifier.lshift", "ground" },
@@ -399,7 +400,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "Ice Lance", "player.moving" }
   },
   {
-	  -- Buffs
+	  -- OoC Buffs
     { "Evocation", "modifier.ralt" },
 	  { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
 	  { "Frost Armor", "!player.buff(Frost Armor)" },
