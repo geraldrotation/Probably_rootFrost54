@@ -19,7 +19,7 @@ function rootFrost.eventHandler(self, event, ...)
 		local spellID		= select(12, ...)
     
 		if subEvent == "UNIT_DIED" then
-			if rootFrost.dots > 0 then
+			if #rootFrost.dots > 0 then
 				for i=1,#rootFrost.dots do
 					if rootFrost.dots[i].guid == destGUID then
             tremove(rootFrost.dots, i)
