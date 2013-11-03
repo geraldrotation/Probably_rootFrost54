@@ -233,13 +233,17 @@ end
 
 function rootFrost.bossDotCheck(i, spellId)
   local bossUnit = "boss"..i
-  if not rootFrost.validTarget(unit) then return false end
+  if not rootFrost.validTarget(bossUnit) then return false end
   if not rootFrost.dotCheck(bossUnit, spellId) then return false end
   return true
 end
 
 ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Combat
+  -- Interrupts
+  { "Counterspell", "modifier.interrupts", "target" }
+  { "Frostjaw", "modifier.interrupts", "target" }
+  
 	-- AoE
 	{ "Flamestrike", "modifier.rshift", "ground" },
 	{ "Blizzard", "modifier.rshift", "ground" },
