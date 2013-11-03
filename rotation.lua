@@ -347,6 +347,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Living Bomb",
     {
       "!boss1.debuff(Living Bomb)",
+      "modifier.multitarget",
       (function() return #rootFrost.dots<3 end)
     },
     "boss1"
@@ -354,6 +355,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	{ "Living Bomb",
     {
       "boss1.debuff(Living Bomb)",
+      "modifier.multitarget",
       "boss1.debuff(Living Bomb).duration < 1",
       (function() return #rootFrost.dots<=3 end)
     },
@@ -362,6 +364,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Living Bomb",
     {
       "!boss2.debuff(Living Bomb)",
+      "modifier.multitarget",
       (function() return #rootFrost.dots<3 end)
     },
     "boss2"
@@ -369,6 +372,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	{ "Living Bomb",
     {
       "boss2.debuff(Living Bomb)",
+      "modifier.multitarget",
       "boss2.debuff(Living Bomb).duration < 1",
       (function() return #rootFrost.dots<=3 end)
     },
@@ -377,6 +381,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Living Bomb",
     {
       "!boss3.debuff(Living Bomb)",
+      "modifier.multitarget",
       (function() return #rootFrost.dots<3 end)
     },
     "boss3"
@@ -384,6 +389,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	{ "Living Bomb",
     {
       "boss3.debuff(Living Bomb)",
+      "modifier.multitarget",
       "boss3.debuff(Living Bomb).duration < 1",
       (function() return #rootFrost.dots<=3 end)
     },
@@ -392,6 +398,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Living Bomb",
     {
       "!boss4.debuff(Living Bomb)",
+      "modifier.multitarget",
       (function() return #rootFrost.dots<3 end)
     },
     "boss4"
@@ -399,15 +406,36 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	{ "Living Bomb",
     {
       "boss4.debuff(Living Bomb)",
+      "modifier.multitarget",
       "boss4.debuff(Living Bomb).duration < 1",
       (function() return #rootFrost.dots<=3 end)
     },
     "boss4"
   },
-  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss1" },
-  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss2" },
-  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss3" },
-  { "Nether Tempest", "!boss1.debuff(Nether Tempest)", "boss4" },  
+  { "Nether Tempest",
+    {
+      "modifier.multitarget",
+      "!boss1.debuff(Nether Tempest)", "boss1"
+    }
+  },
+  { "Nether Tempest",
+    {
+      "modifier.multitarget",
+      "!boss2.debuff(Nether Tempest)", "boss2"
+    }
+  },
+  { "Nether Tempest",
+    {
+      "modifier.multitarget",
+      "!boss3.debuff(Nether Tempest)", "boss3"
+    }
+  },
+  { "Nether Tempest",
+    {
+      "modifier.multitarget",
+      "!boss4.debuff(Nether Tempest)", "boss4"
+    }
+  },
   
   -- Actions
   { "Frostfire Bolt",
