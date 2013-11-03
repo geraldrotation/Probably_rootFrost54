@@ -524,40 +524,51 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Frostfire Bolt",
 		{
 			"player.buff(Brain Freeze)",
-			"!modifier.cooldowns"
+			"!modifier.cooldowns",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
   { "Frostfire Bolt",
 		{
 			"player.buff(Brain Freeze)",
-			"player.spell(Icy Veins).cooldown > 2"
+			"player.spell(Icy Veins).cooldown > 2",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
 	{ "Ice Lance",
 		{
 			"player.buff(Fingers of Frost)",
-			"player.buff(Frozen Thoughts)"
+			"player.buff(Frozen Thoughts)",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
   { "Ice Lance",
 		{
 			"player.buff(Fingers of Frost).count > 1",
-			"!modifier.cooldowns"
+			"!modifier.cooldowns",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
   { "Ice Lance",
 		{
 			"player.buff(Fingers of Frost).count > 1",
-			"player.spell(Icy Veins).cooldown > 2"
+			"player.spell(Icy Veins).cooldown > 2",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
   { "Ice Lance",
 		{
 			"player.buff(Fingers of Frost)",
-			"player.buff(Fingers of Frost).duration < 2"
+			"player.buff(Fingers of Frost).duration < 2",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
-  { "Ice Floes", "player.moving" },
+  { "Ice Floes",
+    {
+      "player.moving",
+      (function() return rootFrost.immuneEvents("target") end)
+    }
+  },
 	{ "Frostbolt", (function() return rootFrost.validTarget("target") end) },
   { "Frostbolt",
     {
@@ -566,10 +577,24 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       (function() return rootFrost.validTarget("target") end)
     }
   },
-	{ "Ice Lance", "player.buff(Fingers of Frost).duration < 2" },
-	{ "Fire Blast", "player.moving" },
-    { "Ice Lance", "player.moving" }
+	{ "Ice Lance",
+    {
+      "player.buff(Fingers of Frost).duration < 2",
+      (function() return rootFrost.immuneEvents("target") end)
+    }
   },
+	{ "Fire Blast",
+    {
+      "player.moving",
+      (function() return rootFrost.immuneEvents("target") end)
+    }
+  },
+  { "Ice Lance",
+    {
+      "player.moving",
+      (function() return rootFrost.immuneEvents("target") end)
+    }
+  }},
   {
 	  -- Out of Combat
     { "Evocation", "modifier.ralt" },
