@@ -174,31 +174,67 @@ function rootFrost.needsPet()
 	end
 end
 
-function rootFrost.bossDotCheck(i)
-  local bossUnit = "boss"..i
-  if not UnitExists(bossUnit) then return false end
-  if not (UnitCanAttack("player", bossUnit) == 1) then return false end
-  if UnitIsDeadOrGhost(bossUnit) then return false end
-  if not UnitIsVisible(bossUnit) then return false end
-  if not IsSpellInRange(GetSpellInfo(116),bossUnit) then return false end
-  if UnitAura(bossUnit,GetSpellInfo(116994))
-		or UnitAura(bossUnit,GetSpellInfo(122540))
-		or UnitAura(bossUnit,GetSpellInfo(123250))
-		or UnitAura(bossUnit,GetSpellInfo(106062))
-		or UnitAura(bossUnit,GetSpellInfo(110945))
-		or UnitAura(bossUnit,GetSpellInfo(143593))
-		then return false end
-  if IsPlayerSpell(44457) then
-    local numDots = rootFrost.numDots()
-    if numDots >= 3 then
-      local LBexp = select(7,UnitAura(bossUnit,GetSpellInfo(44457)))
-      if LBexp then
-        if (LBexp - GetTime()) >= 2 then
+function rootFrost.dotTime(unit, spellId)
+  local debuffTime = select(7,UnitDebuff(unit,GetSpellInfo(spellId)))
+  if debuffTime then
+    return debuffTime - GetTime()
+  end
+  return 0
+end
+
+function rootFrost.dotCheck(unit, spellId)
+  if spellId == 44457 then  -- Living Bomb
+    if IsPlayerSpell(spellId) then
+      local bombExp = rootFrost.dotTime(unit, spellId)
+      if bombExp then
+        if bombExp > 1.6 then
           return false
         end
       end
+      local numDots = rootFrost.numDots()
+      if numDots >= 3 then
+          return false
+      end
+    else
+      return false
+    end
+  elseif spellId == 114923 then -- Nether Tempest
+    if IsPlayerSpell(spellId) then
+      local bombExp = rootFrost.dotTime(unit, spellId)
+      if bombExp then
+        if bombExp > 1.6 then
+          return false
+        end
+      end
+    else
+      return false
     end
   end
+  return true
+end
+
+function rootFrost.validTarget(unit)
+  if not UnitIsVisible(unit) then return false end
+  if not UnitExists(unit) then return false end
+  if not (UnitCanAttack("player", unit) == 1) then return false end
+  if UnitIsDeadOrGhost(unit) then return false end
+  local inRange = IsSpellInRange(GetSpellInfo(116), unit) -- Frostbolt
+  if not inRange then return false end
+  if inRange == 0 then return false end
+  if UnitAura(unit,GetSpellInfo(116994))
+		or UnitAura(unit,GetSpellInfo(122540))
+		or UnitAura(unit,GetSpellInfo(123250))
+		or UnitAura(unit,GetSpellInfo(106062))
+		or UnitAura(unit,GetSpellInfo(110945))
+		or UnitAura(unit,GetSpellInfo(143593))
+		then return false end
+  return true
+end
+
+function rootFrost.bossDotCheck(i, spellId)
+  local bossUnit = "boss"..i
+  if not rootFrost.validTarget(unit) then return false end
+  if not rootFrost.dotCheck(bossUnit, spellId) then return false end
   return true
 end
 
@@ -354,37 +390,17 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
     "mouseover"
   },
-  { "Living Bomb",
-    {
-      "!target.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      (function() return rootFrost.numDots()<3 end)
-    }
-  },
 	{ "Living Bomb",
     {
-      "target.debuff(Living Bomb)",
       "player.spell(Living Bomb).casted < 1",
-      "target.debuff(Living Bomb).duration < 1",
-      (function() return rootFrost.numDots()<=3 end)
+      (function() return rootFrost.dotCheck("target", 44457) end)
     }
-  },
-  { "Living Bomb",
-    {
-      "modifier.lcontrol",
-      "player.spell(Living Bomb).casted < 1",
-      "!mouseover.debuff(Living Bomb)",
-      (function() return rootFrost.numDots()<3 end)
-    },
-    "mouseover"
   },
 	{ "Living Bomb",
     {
       "modifier.lcontrol",
       "player.spell(Living Bomb).casted < 1",
-      "mouseover.debuff(Living Bomb)",
-      "mouseover.debuff(Living Bomb).duration < 1",
-      (function() return rootFrost.numDots()<=3 end)
+      (function() return rootFrost.dotCheck("mouseover", 44457) end)
     },
     "mouseover"
   },
@@ -393,121 +409,56 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "!boss1.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      (function() return rootFrost.bossDotCheck(1) end)
-    },
-    "boss1"
-  },
-	{ "Living Bomb",
-    {
-      "modifier.multitarget",
-      "boss1.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      "boss1.debuff(Living Bomb).duration < 1",
-      (function() return rootFrost.bossDotCheck(1) end)
+      (function() return rootFrost.bossDotCheck(1, 44457) end)
     },
     "boss1"
   },
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "!boss2.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      (function() return rootFrost.bossDotCheck(2) end)
-    },
-    "boss2"
-  },
-	{ "Living Bomb",
-    {
-      "modifier.multitarget",
-      "player.range <= 40",
-      "boss2.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      "boss2.debuff(Living Bomb).duration < 1",
-      (function() return rootFrost.bossDotCheck(2) end)
+      (function() return rootFrost.bossDotCheck(2, 44457) end)
     },
     "boss2"
   },
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "player.range <= 40",
-      "!boss3.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      (function() return rootFrost.bossDotCheck(3) end),
-    },
-    "boss3"
-  },
-	{ "Living Bomb",
-    {
-      "modifier.multitarget",
-      "player.range <= 40",
-      "boss3.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      "boss3.debuff(Living Bomb).duration < 1",
-      (function() return rootFrost.bossDotCheck(3) end),
+      (function() return rootFrost.bossDotCheck(3, 44457) end)
     },
     "boss3"
   },
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "player.range <= 40",
-      "!boss4.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      (function() return rootFrost.bossDotCheck(4) end)
-    },
-    "boss4"
-  },
-	{ "Living Bomb",
-    {
-      "modifier.multitarget",
-      "player.range <= 40",
-      "boss4.debuff(Living Bomb)",
-      "player.spell(Living Bomb).casted < 1",
-      "boss4.debuff(Living Bomb).duration < 1",
-      (function() return rootFrost.bossDotCheck(4) end)
+      (function() return rootFrost.bossDotCheck(4, 44457) end)
     },
     "boss4"
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "player.range <= 40",
-      "player.spell(Nether Tempest).casted < 1",
-      (function() return rootFrost.bossDotCheck(1) end),
-      "!boss1.debuff(Nether Tempest)",
+      (function() return rootFrost.bossDotCheck(1, 114923) end)
     },
     "boss1"
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "player.range <= 40",
-      "player.spell(Nether Tempest).casted < 1",
-      (function() return rootFrost.bossDotCheck(2) end),
-      "!boss2.debuff(Nether Tempest)",
+      (function() return rootFrost.bossDotCheck(2, 114923) end)
     },
     "boss2"    
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "player.range <= 40",
-      "player.spell(Nether Tempest).casted < 1",
-      (function() return rootFrost.bossDotCheck(3) end),
-      "!boss3.debuff(Nether Tempest)",
+      (function() return rootFrost.bossDotCheck(3, 114923) end)
     },
     "boss3"
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "player.range <= 40",
-      "player.spell(Nether Tempest).casted < 1",
-      (function() return rootFrost.bossDotCheck(4) end),
-      "!boss4.debuff(Nether Tempest)",
+      (function() return rootFrost.bossDotCheck(4, 114923) end)
     },
     "boss4"
   },
