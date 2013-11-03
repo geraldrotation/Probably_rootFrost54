@@ -53,7 +53,7 @@ function rootFrost.eventHandler(self, event, ...)
               table.insert(rootFrost.dots, {guid = destGUID, spellID = spellID})
             end
         end
-      end 
+      end
     end
   end
 end
@@ -62,6 +62,49 @@ rootFrost.eventFrame = CreateFrame("Frame")
 rootFrost.eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 rootFrost.eventFrame:SetScript("OnEvent", rootFrost.eventHandler)
 rootFrost.eventFrame:Show()
+
+function rootFrost.spellCooldown(spell)
+  local spellName = GetSpellInfo(spell)
+  if spellName then
+    local spellCDstart,spellCDduration,spellCDenabled = GetSpellCooldown(spellName)
+    if spellCDduration == 0 then
+      return 0
+    elseif spellCDduration > 0 then
+      local spellCD = spellCDstart + spellCDduration - GetTime()
+      return spellCD
+    end
+  end
+  return 0
+end
+
+function rootFrost.useGloves()
+  local hasEngi = false
+  for i=1,9 do
+    if select(7,GetProfessionInfo(i)) == 202 then hasEngi = true end
+  end
+  if hasEngi == false then return false end
+  if GetItemCooldown(GetInventoryItemID("player", 10)) > 0 then return false end
+  
+  local ATCD = rootFrost.spellCooldown(108978)
+  if ATCD > 10 and ATCD < 46 then
+    return false
+  end
+  if IsPlayerSpell(12051) then
+    local INVOB = select(6, UnitAura("player",116257))
+    if INVOB then
+      if INVOB < 21 then
+        return false
+      end
+    end
+  end
+  if IsUsableSpell(55342) then
+    local MICD = rootFrost.spellCooldown(55342)
+    if MICD < 40 then 
+      return false
+    end
+  end
+  return true
+end
 
 function rootFrost.numDots()
   if #rootFrost.dots ~= rootFrost.tempNum then
@@ -193,26 +236,26 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   
   --Cooldowns
 	{ "Presence of Mind", "modifier.cooldowns" },
-  { "Mirror Image", "modifier.cooldowns" },
   { "Lifeblood", "modifier.cooldowns" },
   { "Berserking", "modifier.cooldowns" },
   { "Blood Fury", "modifier.cooldowns" },
+  { "Mirror Image", "modifier.cooldowns" },
+  { "#gloves",
+		{
+			"modifier.cooldowns",
+			"!player.buff(Alter Time)",
+			"!player.moving",
+      (function() return rootFrost.useGloves() end)
+      
+		}
+	},
 	{ "Frozen Orb",
 		{
 			"!player.moving",
 			"modifier.cooldowns"
 		}
 	},
-	{ "#gloves",
-		{
-			"modifier.cooldowns",
-			"!player.buff(Alter Time)",
-			"!player.moving",
-      (function() return select(7,GetProfessionInfo(i)) == 202 end)
-      
-		}
-	},
-    { "Icy Veins",
+  { "Icy Veins",
 		{
 			"modifier.cooldowns",
 			"player.buff(Brain Freeze)",
