@@ -384,7 +384,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	{ "Frozen Orb",
 		{
 			"!player.moving",
-			"modifier.cooldowns"
+			"modifier.cooldowns",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
   { "Icy Veins",
@@ -392,7 +393,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"modifier.cooldowns",
 			"player.buff(Brain Freeze)",
 			"!player.buff(Alter Time)",
-			"!player.moving"
+			"!player.moving",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
 	{ "Icy Veins",
@@ -400,7 +402,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"modifier.cooldowns",
 			"player.buff(Fingers of Frost)",
 			"!player.buff(Alter Time)",
-			"!player.moving"
+			"!player.moving",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
     { "Alter Time", 
@@ -409,7 +412,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.buff(Alter Time)",
 			"player.buff(Icy Veins)",
 			"player.buff(Brain Freeze)",
-			"!player.moving"
+			"!player.moving",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
 	{ "Alter Time", 
@@ -418,7 +422,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.buff(Alter Time)",
 			"player.buff(Icy Veins)",
 			"player.buff(Fingers of Frost).count > 1",
-			"!player.moving"
+			"!player.moving",
+      (function() return rootFrost.immuneEvents("target") end)
 		}
 	},
 	{ "Alter Time",
@@ -429,11 +434,17 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	},
   
   -- Dots
-  { "Nether Tempest", "!target.debuff(Nether Tempest)" },
+  { "Nether Tempest",
+    {
+      "!target.debuff(Nether Tempest)",
+      (function() return rootFrost.immuneEvents("target") end)
+    }
+  },
   { "Nether Tempest",
     {
       "modifier.lcontrol",
-      "!mouseover.debuff(Nether Tempest)"
+      "!mouseover.debuff(Nether Tempest)",
+      (function() return rootFrost.immuneEvents("mouseover") end)
     },
     "mouseover"
   },
