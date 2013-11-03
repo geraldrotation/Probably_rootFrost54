@@ -207,7 +207,9 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 		{
 			"modifier.cooldowns",
 			"!player.buff(Alter Time)",
-			"!player.moving"
+			"!player.moving",
+      (function() return select(7,GetProfessionInfo(i)) == 202 end)
+      
 		}
 	},
     { "Icy Veins",
