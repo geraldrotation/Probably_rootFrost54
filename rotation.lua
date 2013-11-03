@@ -221,7 +221,7 @@ function rootFrost.validTarget(unit)
   local inRange = IsSpellInRange(GetSpellInfo(116), unit) -- Frostbolt
   if not inRange then return false end
   if inRange == 0 then return false end
-  if not immuneEvents(unit) then return false end
+  if not rootFrost.immuneEvents(unit) then return false end
   if not rootFrost.interruptEvents(unit) then return false end
   return true
 end
@@ -233,7 +233,8 @@ function rootFrost.bossDotCheck(i, spellId)
   return true
 end
 
-function rootFrost.interruptEvent(unit)
+function rootFrost.interruptEvents(unit)
+  if not unit then unit = "boss1" end
   local spell = UnitCastingInfo(unit)
   local stop = false
   if spell == GetSpellInfo(138763) then stop = true end
@@ -245,6 +246,7 @@ function rootFrost.interruptEvent(unit)
       return false
     end
   end
+  return true
 end
 
 function rootFrost.immuneEvents(unit)
@@ -262,34 +264,58 @@ end
 ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Combat
   -- Interrupts
-  { "Counterspell", "modifier.interrupts", "target" }
-  { "Frostjaw", "modifier.interrupts", "target" }
+  { "Counterspell", "modifier.interrupts", "target" },
+  { "Frostjaw", "modifier.interrupts", "target" },
   
 	-- AoE
-	{ "Flamestrike", "modifier.rshift", "ground" },
-	{ "Blizzard", "modifier.rshift", "ground" },
+	{ "Flamestrike",
+    {
+      "modifier.rshift",
+      (function() return rootFrost.interruptEvents() end)
+    },
+     "ground"
+  },
+	{ "Blizzard",
+    {
+      "modifier.rshift",
+      (function() return rootFrost.interruptEvents() end)
+    },
+    "ground"
+  },
   { "Freeze", "modifier.lshift", "ground" },
 	
 	-- Support
   { "pause", "modifier.lalt" },
   { "Ice Block", "player.health < 35" },
   { "Cold Snap", "player.health <= 30" },
-  { "Healing Touch", "player.health < 40" },
+  { "Healing Touch",
+    {
+      "player.health < 40",
+      (function() return rootFrost.interruptEvents() end)
+    }
+  },
   { "Ring of Frost", "modifier.rcontrol" },
-  { "Summon Water Elemental", (function() return rootFrost.needsPet() end) },
+  { "Summon Water Elemental",
+    {
+      (function() return rootFrost.needsPet() end),
+      (function() return rootFrost.interruptEvents() end)
+    }
+  },
   { "Arcane Torrent", "player.mana < 92" },
   { "Evocation",
     {
       "modifier.ralt",
       "player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end)
+      (function() return IsPlayerSpell(114003) end),
+      (function() return rootFrost.interruptEvents() end)
     }
   },
   { "Rune of Power",
     {
       "modifier.ralt",
       "player.spell(Rune of Power).casted < 1",
-      (function() return IsPlayerSpell(116011) end)
+      (function() return IsPlayerSpell(116011) end),
+      (function() return rootFrost.interruptEvents() end)
     },
     "ground"
   },
@@ -310,7 +336,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.buff(Invoker's Energy)",
 			"!player.moving",
 			"player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end)
+      (function() return IsPlayerSpell(114003) end),
+      (function() return rootFrost.interruptEvents() end)
 		}
 	},
 	{ "Evocation",
@@ -320,7 +347,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.spell.cooldown(Icy Veins)",
 			"!player.buff(Alter Time)",
 			"player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end)
+      (function() return IsPlayerSpell(114003) end),
+      (function() return rootFrost.interruptEvents() end)
 		}
 	},
 	{ "Evocation",
@@ -330,7 +358,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.spell.cooldown(Icy Veins)",
 			"!player.buff(Alter Time)",
 			"player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end)
+      (function() return IsPlayerSpell(114003) end),
+      (function() return rootFrost.interruptEvents() end)
 		}
 	},
 
@@ -408,10 +437,13 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
     "mouseover"
   },
-  { "Frost Bomb" },
+  { "Frost Bomb",
+    (function() return rootFrost.validTarget("target") end)
+  },
   { "Frost Bomb",
     {
-      "modifier.lcontrol"
+      "modifier.lcontrol",
+      (function() return rootFrost.validTarget("mouseover") end)
     },
     "mouseover"
   },
@@ -525,9 +557,16 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"player.buff(Fingers of Frost).duration < 2"
 		}
 	},
-	{ "Frostbolt" },
+  { "Ice Floes", "player.moving" },
+	{ "Frostbolt", (function() return rootFrost.validTarget("target") end) },
+  { "Frostbolt",
+    {
+      "player.moving",
+      "player.buff(Ice Floes)",
+      (function() return rootFrost.validTarget("target") end)
+    }
+  },
 	{ "Ice Lance", "player.buff(Fingers of Frost).duration < 2" },
-	{ "Ice Floes", "player.moving" },
 	{ "Fire Blast", "player.moving" },
     { "Ice Lance", "player.moving" }
   },
