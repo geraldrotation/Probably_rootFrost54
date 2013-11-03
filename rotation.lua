@@ -222,6 +222,7 @@ function rootFrost.validTarget(unit)
   if not inRange then return false end
   if inRange == 0 then return false end
   if not immuneEvents(unit) then return false end
+  if not rootFrost.interruptEvents(unit) then return false end
   return true
 end
 
@@ -232,13 +233,28 @@ function rootFrost.bossDotCheck(i, spellId)
   return true
 end
 
+function rootFrost.interruptEvent(unit)
+  local spell = UnitCastingInfo(unit)
+  local stop = false
+  if spell == GetSpellInfo(138763) then stop = true end
+  if spell == GetSpellInfo(137457) then stop = true end
+  if spell == GetSpellInfo(143343) then stop = true end -- Thok
+  if stop then
+    if UnitCastingInfo("player") or UnitChannelInfo("player") then
+      RunMacroText("/stopcasting")
+      return false
+    end
+  end
+end
+
 function rootFrost.immuneEvents(unit)
   if UnitAura(unit,GetSpellInfo(116994))
 		or UnitAura(unit,GetSpellInfo(122540))
 		or UnitAura(unit,GetSpellInfo(123250))
 		or UnitAura(unit,GetSpellInfo(106062))
 		or UnitAura(unit,GetSpellInfo(110945))
-		or UnitAura(unit,GetSpellInfo(143593))
+		or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
+    or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
 		then return false end
   return true
 end
