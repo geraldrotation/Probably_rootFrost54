@@ -19,7 +19,7 @@ Features
 - Hotkeys
 - Mouseover Dotting
 - Healthstone
-- Boss Dotting
+- Boss Dotting (toggle multitarget)
 
 Hotkeys
 ====================
