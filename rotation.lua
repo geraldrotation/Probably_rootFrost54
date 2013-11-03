@@ -221,13 +221,7 @@ function rootFrost.validTarget(unit)
   local inRange = IsSpellInRange(GetSpellInfo(116), unit) -- Frostbolt
   if not inRange then return false end
   if inRange == 0 then return false end
-  if UnitAura(unit,GetSpellInfo(116994))
-		or UnitAura(unit,GetSpellInfo(122540))
-		or UnitAura(unit,GetSpellInfo(123250))
-		or UnitAura(unit,GetSpellInfo(106062))
-		or UnitAura(unit,GetSpellInfo(110945))
-		or UnitAura(unit,GetSpellInfo(143593))
-		then return false end
+  if not immuneEvents(unit) then return false end
   return true
 end
 
@@ -235,6 +229,17 @@ function rootFrost.bossDotCheck(i, spellId)
   local bossUnit = "boss"..i
   if not rootFrost.validTarget(bossUnit) then return false end
   if not rootFrost.dotCheck(bossUnit, spellId) then return false end
+  return true
+end
+
+function rootFrost.immuneEvents(unit)
+  if UnitAura(unit,GetSpellInfo(116994))
+		or UnitAura(unit,GetSpellInfo(122540))
+		or UnitAura(unit,GetSpellInfo(123250))
+		or UnitAura(unit,GetSpellInfo(106062))
+		or UnitAura(unit,GetSpellInfo(110945))
+		or UnitAura(unit,GetSpellInfo(143593))
+		then return false end
   return true
 end
 
