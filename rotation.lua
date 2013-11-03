@@ -91,9 +91,9 @@ function rootFrost.useGloves()
     return false
   end
   if IsPlayerSpell(12051) then
-    local INVOB = select(6, UnitAura("player",116257))
+    local INVOB = select(7, UnitAura("player",116257))
     if INVOB then
-      if INVOB < 21 then
+      if (GetTime() - INVOB) < 21 then
         return false
       end
     end
