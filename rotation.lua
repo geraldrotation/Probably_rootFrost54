@@ -268,57 +268,19 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Frostjaw", "modifier.interrupts", "target" },
   
 	-- AoE
-	{ "Flamestrike",
-    {
-      "modifier.rshift",
-      (function() return rootFrost.interruptEvents() end)
-    },
-     "ground"
-  },
-	{ "Blizzard",
-    {
-      "modifier.rshift",
-      (function() return rootFrost.interruptEvents() end)
-    },
-    "ground"
-  },
+  {{
+    { "Flamestrike", "modifier.rshift", "ground" },
+    { "Blizzard", "modifier.rshift", "ground" },
+  },(function() return rootFrost.interruptEvents() end)},
+
   { "Freeze", "modifier.lshift", "ground" },
+  { "Ring of Frost", "modifier.rcontrol" },
 	
 	-- Support
   { "pause", "modifier.lalt" },
   { "Ice Block", "player.health < 35" },
   { "Cold Snap", "player.health <= 30" },
-  { "Healing Touch",
-    {
-      "player.health < 40",
-      (function() return rootFrost.interruptEvents() end)
-    }
-  },
-  { "Ring of Frost", "modifier.rcontrol" },
-  { "Summon Water Elemental",
-    {
-      (function() return rootFrost.needsPet() end),
-      (function() return rootFrost.interruptEvents() end)
-    }
-  },
   { "Arcane Torrent", "player.mana < 92" },
-  { "Evocation",
-    {
-      "modifier.ralt",
-      "player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end),
-      (function() return rootFrost.interruptEvents() end)
-    }
-  },
-  { "Rune of Power",
-    {
-      "modifier.ralt",
-      "player.spell(Rune of Power).casted < 1",
-      (function() return IsPlayerSpell(116011) end),
-      (function() return rootFrost.interruptEvents() end)
-    },
-    "ground"
-  },
   { "!/use healthstone",
     {
       "player.health < 40",
@@ -331,42 +293,66 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.buff(Ice Barrier)"
 		}
 	},
-	{ "Evocation",
-		{
-			"!player.buff(Invoker's Energy)",
-			"!player.moving",
-			"player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end),
-      (function() return rootFrost.interruptEvents() end)
-		}
-	},
-	{ "Evocation",
-		{
-			"player.mana < 20",
-			"!player.moving",
-			"!player.spell.cooldown(Icy Veins)",
-			"!player.buff(Alter Time)",
-			"player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end),
-      (function() return rootFrost.interruptEvents() end)
-		}
-	},
-	{ "Evocation",
-		{
-			"player.buff(Invoker's Energy).duration < 1",
-			"!player.moving",
-			"!player.spell.cooldown(Icy Veins)",
-			"!player.buff(Alter Time)",
-			"player.spell(Evocation).casted < 1",
-      (function() return IsPlayerSpell(114003) end),
-      (function() return rootFrost.interruptEvents() end)
-		}
-	},
+
+  {{
+    { "Healing Touch", "player.health < 40" },
+    { "Summon Water Elemental", (function() return rootFrost.needsPet() end) },
+    
+    { "Evocation",
+      {
+        "modifier.ralt",
+        "player.spell(Evocation).casted < 1",
+        (function() return IsPlayerSpell(114003) end),
+      }
+    },
+    { "Rune of Power",
+      {
+        "modifier.ralt",
+        "player.spell(Rune of Power).casted < 1",
+        (function() return IsPlayerSpell(116011) end),
+      },
+      "ground"
+    },
+    { "Evocation",
+      {
+        "!player.buff(Invoker's Energy)",
+        "!player.moving",
+        "player.spell(Evocation).casted < 1",
+        (function() return IsPlayerSpell(114003) end),
+      }
+    },
+    { "Evocation",
+      {
+        "player.mana < 20",
+        "!player.moving",
+        "!player.spell.cooldown(Icy Veins)",
+        "!player.buff(Alter Time)",
+        "player.spell(Evocation).casted < 1",
+        (function() return IsPlayerSpell(114003) end),
+      }
+    },
+    { "Evocation",
+      {
+        "player.buff(Invoker's Energy).duration < 1",
+        "!player.moving",
+        "!player.spell.cooldown(Icy Veins)",
+        "!player.buff(Alter Time)",
+        "player.spell(Evocation).casted < 1",
+        (function() return IsPlayerSpell(114003) end),
+      }
+    },
+  },(function() return rootFrost.interruptEvents() end)},
 
 	{ "!/use Potion of the Jade Serpent", (function() return rootFrost.usePot() end) },
 	{ "!/use Mana Gem", (function() return rootFrost.useManagem() end) },
   
   --Cooldowns
+  { "Alter Time",
+    {
+      "player.buff(Alter Time)",
+      "player.moving"
+    }
+  },
 	{ "Presence of Mind", "modifier.cooldowns" },
   { "Lifeblood", "modifier.cooldowns" },
   { "Berserking", "modifier.cooldowns" },
@@ -381,65 +367,56 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       
 		}
 	},
-	{ "Frozen Orb",
-		{
-			"!player.moving",
-			"modifier.cooldowns",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-  { "Icy Veins",
-		{
-			"modifier.cooldowns",
-			"player.buff(Brain Freeze)",
-			"!player.buff(Alter Time)",
-			"!player.moving",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-	{ "Icy Veins",
-		{
-			"modifier.cooldowns",
-			"player.buff(Fingers of Frost)",
-			"!player.buff(Alter Time)",
-			"!player.moving",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
+  {{
+    { "Frozen Orb",
+      {
+        "!player.moving",
+        "modifier.cooldowns",
+      }
+    },
+    { "Icy Veins",
+      {
+        "modifier.cooldowns",
+        "player.buff(Brain Freeze)",
+        "!player.buff(Alter Time)",
+        "!player.moving",
+      }
+    },
+    { "Icy Veins",
+      {
+        "modifier.cooldowns",
+        "player.buff(Fingers of Frost)",
+        "!player.buff(Alter Time)",
+        "!player.moving",
+      }
+    },
+      { "Alter Time", 
+      {
+        "modifier.cooldowns",
+        "!player.buff(Alter Time)",
+        "player.buff(Icy Veins)",
+        "player.buff(Brain Freeze)",
+        "!player.moving",
+      }
+    },
     { "Alter Time", 
-		{
-			"modifier.cooldowns",
-			"!player.buff(Alter Time)",
-			"player.buff(Icy Veins)",
-			"player.buff(Brain Freeze)",
-			"!player.moving",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-	{ "Alter Time", 
-		{
-			"modifier.cooldowns",
-			"!player.buff(Alter Time)",
-			"player.buff(Icy Veins)",
-			"player.buff(Fingers of Frost).count > 1",
-			"!player.moving",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-	{ "Alter Time",
-		{
-			"player.buff(Alter Time)",
-			"player.moving"
-		}
-	},
-  
-  -- Dots
-  { "Nether Tempest",
-    {
-      "!target.debuff(Nether Tempest)",
-      (function() return rootFrost.immuneEvents("target") end)
-    }
-  },
+      {
+        "modifier.cooldowns",
+        "!player.buff(Alter Time)",
+        "player.buff(Icy Veins)",
+        "player.buff(Fingers of Frost).count > 1",
+        "!player.moving",
+      }
+    },
+    
+    -- Dots
+    { "Nether Tempest",
+      {
+        "!target.debuff(Nether Tempest)",
+      }
+    },
+  },(function() return rootFrost.immuneEvents("target") end)},
+
   { "Nether Tempest",
     {
       "modifier.lcontrol",
@@ -532,80 +509,63 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   },
   
   -- Actions
-  { "Frostfire Bolt",
-		{
-			"player.buff(Brain Freeze)",
-			"!modifier.cooldowns",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-  { "Frostfire Bolt",
-		{
-			"player.buff(Brain Freeze)",
-			"player.spell(Icy Veins).cooldown > 2",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-	{ "Ice Lance",
-		{
-			"player.buff(Fingers of Frost)",
-			"player.buff(Frozen Thoughts)",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-  { "Ice Lance",
-		{
-			"player.buff(Fingers of Frost).count > 1",
-			"!modifier.cooldowns",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-  { "Ice Lance",
-		{
-			"player.buff(Fingers of Frost).count > 1",
-			"player.spell(Icy Veins).cooldown > 2",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-  { "Ice Lance",
-		{
-			"player.buff(Fingers of Frost)",
-			"player.buff(Fingers of Frost).duration < 2",
-      (function() return rootFrost.immuneEvents("target") end)
-		}
-	},
-  { "Ice Floes",
-    {
-      "player.moving",
-      (function() return rootFrost.immuneEvents("target") end)
-    }
-  },
-	{ "Frostbolt", (function() return rootFrost.validTarget("target") end) },
-  { "Frostbolt",
-    {
-      "player.moving",
-      "player.buff(Ice Floes)",
-      (function() return rootFrost.validTarget("target") end)
-    }
-  },
-	{ "Ice Lance",
-    {
-      "player.buff(Fingers of Frost).duration < 2",
-      (function() return rootFrost.immuneEvents("target") end)
-    }
-  },
-	{ "Fire Blast",
-    {
-      "player.moving",
-      (function() return rootFrost.immuneEvents("target") end)
-    }
-  },
-  { "Ice Lance",
-    {
-      "player.moving",
-      (function() return rootFrost.immuneEvents("target") end)
-    }
-  }},
+  {{
+    { "Frostfire Bolt",
+      {
+        "player.buff(Brain Freeze)",
+        "!modifier.cooldowns",
+      }
+    },
+    { "Frostfire Bolt",
+      {
+        "player.buff(Brain Freeze)",
+        "player.spell(Icy Veins).cooldown > 2",
+      }
+    },
+    { "Ice Lance",
+      {
+        "player.buff(Fingers of Frost)",
+        "player.buff(Frozen Thoughts)",
+      }
+    },
+    { "Ice Lance",
+      {
+        "player.buff(Fingers of Frost).count > 1",
+        "!modifier.cooldowns",
+      }
+    },
+    { "Ice Lance",
+      {
+        "player.buff(Fingers of Frost).count > 1",
+        "player.spell(Icy Veins).cooldown > 2",
+      }
+    },
+    { "Ice Lance",
+      {
+        "player.buff(Fingers of Frost)",
+        "player.buff(Fingers of Frost).duration < 2",
+      }
+    },
+    { "Ice Floes",
+      {
+        "player.moving",
+      }
+    },
+  },(function() return rootFrost.immuneEvents("target") end)},
+
+  {{
+    { "Frostbolt", (function() return rootFrost.validTarget("target") end) },
+    { "Frostbolt",
+      {
+        "player.moving",
+        "player.buff(Ice Floes)"
+      }
+    },
+    { "Ice Lance", "player.buff(Fingers of Frost).duration < 2" },
+    { "Fire Blast", "player.moving" },
+    { "Ice Lance", "player.moving" },
+  },(function() return rootFrost.immuneEvents("target") end)},
+},
   {
 	  -- Out of Combat
     { "Evocation", "modifier.ralt" },
