@@ -5,18 +5,21 @@
 local rootFrost = { }
 
 rootFrost.dots = { }
+rootFrost.blacklist = { }
 
 rootFrost.tempNum = 0
 
 function rootFrost.eventHandler(self, event, ...)
 	if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED" then
 		if #rootFrost.dots > 0 then rootFrost.dots = {} end
+    if #rootFrost.blacklist > 0 then rootFrost.blacklist = {} end
 	end
   if event == "COMBAT_LOG_EVENT_UNFILTERED" then
     local subEvent		= select(2, ...)
 		local source		= select(5, ...)
 		local destGUID		= select(8, ...)
 		local spellID		= select(12, ...)
+    local failedType = select(15, ...)
     
 		if subEvent == "UNIT_DIED" then
 			if #rootFrost.dots > 0 then
@@ -55,7 +58,16 @@ function rootFrost.eventHandler(self, event, ...)
             end
         end
       end
+      
+      if subEvent == "SPELL_CAST_FAILED" then
+        if failedType and failedType == "Invalid target" then
+          if spellID == 44457 or spellID == 114923 then
+            rootFrost.blacklist[destGUID] = spellTime
+          end
+        end 
+      end
     end
+
   end
 end
 
@@ -183,6 +195,8 @@ function rootFrost.dotTime(unit, spellId)
 end
 
 function rootFrost.dotCheck(unit, spellId)
+  local destGUID = UnitGUID(unit)
+  if rootFrost.blacklist[destGUID] then return false end
   if spellId == 44457 then  -- Living Bomb
     if IsPlayerSpell(spellId) then
       local bombExp = rootFrost.dotTime(unit, spellId)
