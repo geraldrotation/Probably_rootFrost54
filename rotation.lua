@@ -234,6 +234,7 @@ function rootFrost.bossDotCheck(i, spellId)
 end
 
 function rootFrost.interruptEvents(unit)
+  if UnitBuff("player", 31821) then return true end -- Devo
   if not unit then unit = "boss1" end
   local spell = UnitCastingInfo(unit)
   local stop = false
