@@ -133,6 +133,14 @@ function rootFrost.numDots()
     end
   end
   
+  for k,v in pairs(rootFrost.blacklist) do
+    if (GetTime() - v) >= 13 then
+      tremove(rootFrost.blacklist, k)
+    end
+  end
+  
+
+  
   if #rootFrost.dots ~= rootFrost.tempNum then
     rootFrost.tempNum = #rootFrost.dots
   end
