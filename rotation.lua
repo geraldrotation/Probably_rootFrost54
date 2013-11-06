@@ -9,7 +9,7 @@ rootFrost.blacklist = { }
 
 rootFrost.tempNum = 0
 
-function rootFrost.eventHandler(self, event, ...)
+rootFrost.eventHandler = function(self, event, ...)
 	if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED" then
 		if #rootFrost.dots > 0 then rootFrost.dots = {} end
     if #rootFrost.blacklist > 0 then rootFrost.blacklist = {} end
@@ -71,10 +71,8 @@ function rootFrost.eventHandler(self, event, ...)
   end
 end
 
-rootFrost.eventFrame = CreateFrame("Frame")
-rootFrost.eventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-rootFrost.eventFrame:SetScript("OnEvent", rootFrost.eventHandler)
-rootFrost.eventFrame:Show()
+ProbablyEngine.listener.register("rootFrost", "COMBAT_LOG_EVENT_UNFILTERED", rootFrost.eventHandler)
+--not yet ProbablyEngine.library.register("rootFrost", rootFrost)
 
 function rootFrost.spellCooldown(spell)
   local spellName = GetSpellInfo(spell)
@@ -576,7 +574,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   },(function() return rootFrost.immuneEvents("target") end)},
 
   {{
-    { "Ice Lance", "player.buff(Fingers of Frost).duration < 2" },
+    { "Ice Lance",
+      {
+        "player.buff(Fingers of Frost)",
+        "player.buff(Fingers of Frost).duration < 2"
+      }
+    },
     { "Fire Blast", "player.moving" },
     { "Ice Lance", "player.moving" },
   },(function() return rootFrost.immuneEvents("target") end)},
