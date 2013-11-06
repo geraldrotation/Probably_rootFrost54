@@ -584,7 +584,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Filler
   {{
     { "Frostbolt", "!player.moving" },
-    { "Frostbolt", "player.moving" },
+    { "Frostbolt",
+      {
+        "player.moving",
+        "player.buff(Ice Floes)"
+      }
+    },
   }, (function() return rootFrost.validTarget("target") end) },
 },
   {
