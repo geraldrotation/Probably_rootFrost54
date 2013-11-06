@@ -1,0 +1,273 @@
+local rootFrost = { }
+
+rootFrost.dots = { }
+rootFrost.blacklist = { }
+
+rootFrost.tempNum = 0
+
+rootFrost.eventHandler = function(self, event, ...)
+	if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED" then
+		if #rootFrost.dots > 0 then rootFrost.dots = {} end
+    if #rootFrost.blacklist > 0 then rootFrost.blacklist = {} end
+	end
+  if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+    local subEvent		= select(2, ...)
+		local source		= select(5, ...)
+		local destGUID		= select(8, ...)
+		local spellID		= select(12, ...)
+    local failedType = select(15, ...)
+    
+		if subEvent == "UNIT_DIED" then
+			if #rootFrost.dots > 0 then
+				for i=1,#rootFrost.dots do
+					if rootFrost.dots[i].guid == destGUID then
+            tremove(rootFrost.dots, i)
+            return true
+          end
+				end
+			end
+		end
+    
+    if UnitName("player") == source then
+      if subEvent == "SPELL_AURA_REMOVED" then
+        if spellID == 44457 then
+          for i=1,#rootFrost.dots do
+            if rootFrost.dots[i].guid == destGUID then
+              tremove(rootFrost.dots, i)
+              return true
+            end
+          end
+        end
+      end
+    
+      if subEvent == "SPELL_AURA_APPLIED" then
+        local existingDot = false
+        if spellID == 44457 then
+            for i=1,#rootFrost.dots do
+              if rootFrost.dots[i].guid == destGUID and rootFrost.dots[i].spellID == spellID then
+                rootFrost.dots[i].spellTime = GetTime()
+                existingDot = true
+              end
+            end
+            if not existingDot then
+              table.insert(rootFrost.dots, {guid = destGUID, spellID = spellID, spellTime = GetTime()})
+            end
+        end
+      end
+      
+      if subEvent == "SPELL_CAST_FAILED" then
+        if failedType and failedType == "Invalid target" then
+          if spellID == 44457 or spellID == 114923 then
+            rootFrost.blacklist[destGUID] = spellTime
+          end
+        end 
+      end
+    end
+
+  end
+end
+
+ProbablyEngine.listener.register("rootFrost", "COMBAT_LOG_EVENT_UNFILTERED", rootFrost.eventHandler)
+--not yet ProbablyEngine.library.register("rootFrost", rootFrost)
+
+function rootFrost.spellCooldown(spell)
+  local spellName = GetSpellInfo(spell)
+  if spellName then
+    local spellCDstart,spellCDduration,_ = GetSpellCooldown(spellName)
+    if spellCDduration == 0 then
+      return 0
+    elseif spellCDduration > 0 then
+      local spellCD = spellCDstart + spellCDduration - GetTime()
+      return spellCD
+    end
+  end
+  return 0
+end
+
+function rootFrost.useGloves()
+  local hasEngi = false
+  for i=1,9 do
+    if select(7,GetProfessionInfo(i)) == 202 then hasEngi = true end
+  end
+  if hasEngi == false then return false end
+  if GetItemCooldown(GetInventoryItemID("player", 10)) > 0 then return false end
+  
+  local ATCD = rootFrost.spellCooldown(108978)
+  if ATCD > 10 and ATCD < 46 then
+    return false
+  end
+  if IsPlayerSpell(12051) then
+    local INVOB = select(7, UnitAura("player",116257))
+    if INVOB then
+      if (INVOB - GetTime()) < 21 then
+        return false
+      end
+    end
+  end
+  if IsUsableSpell(55342) then
+    local MICD = rootFrost.spellCooldown(55342)
+    if MICD < 40 then 
+      return false
+    end
+  end
+  return true
+end
+
+function rootFrost.numDots()
+  local removes = { }
+  for i=1,#rootFrost.dots do
+    if (GetTime() - rootFrost.dots[i].spellTime) >= 13 then
+      table.insert(removes, { id = i } )
+    end
+  end
+  
+  if #removes > 0 then
+    for i=1,#removes do
+      tremove(rootFrost.dots, removes[i].id)
+    end
+  end
+  
+  for k,v in pairs(rootFrost.blacklist) do
+    if (GetTime() - v) >= 13 then
+      tremove(rootFrost.blacklist, k)
+    end
+  end
+  
+
+  
+  if #rootFrost.dots ~= rootFrost.tempNum then
+    rootFrost.tempNum = #rootFrost.dots
+  end
+  return #rootFrost.dots
+end
+
+function rootFrost.usePot()
+	if not (UnitBuff("player", 2825) or
+			UnitBuff("player", 32182) or 
+			UnitBuff("player", 80353) or
+			UnitBuff("player", 90355)) then
+		return false
+	end
+	if GetItemCount(76093) < 1 then return false end
+	if GetItemCooldown(76093) ~= 0 then return false end
+	if not ProbablyEngine.condition["modifier.cooldowns"] then return false end
+	if UnitLevel("target") ~= -1 then return false end
+	if ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')] then
+		local ttdest = ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')]['ttdest']
+		local ttdsamp = ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')]['ttdsamples']
+		if (ttdest / ttdsamp) > 30 then return false end
+	end
+	return true 
+end
+
+function rootFrost.needsManagem()
+	if IsPlayerSpell(56383) then
+		if GetItemCount(81901, nil, true) < 10 then return true end
+	end
+	if GetItemCount(36799, nil, true) < 3 then return true end
+end
+
+function rootFrost.useManagem()
+	local Max = UnitPowerMax("player")
+	local Mana = 100 * UnitPower("player") / Max
+	if Mana < 70 then
+		if GetItemCount(81901, nil, true) >= 1 then
+			if GetItemCooldown(81901) == 0 then return true end
+		end
+		if GetItemCount(36799, nil, true) >= 1 then
+		    if GetItemCooldown(36799) == 0 then return true end
+		end
+	end
+end
+
+function rootFrost.dotTime(unit, spellId)
+  local debuffTime = select(7,UnitDebuff(unit,GetSpellInfo(spellId)))
+  if debuffTime then
+    return debuffTime - GetTime()
+  end
+  return 0
+end
+
+function rootFrost.dotCheck(unit, spellId)
+  local destGUID = UnitGUID(unit)
+  if rootFrost.blacklist[destGUID] then return false end
+  if spellId == 44457 then  -- Living Bomb
+    if IsPlayerSpell(spellId) then
+      local bombExp = rootFrost.dotTime(unit, spellId)
+      if bombExp then
+        if bombExp > 1.6 then
+          return false
+        end
+      end
+      local numDots = rootFrost.numDots()
+      if numDots >= 3 then
+          return false
+      end
+    else
+      return false
+    end
+  elseif spellId == 114923 then -- Nether Tempest
+    if IsPlayerSpell(spellId) then
+      local bombExp = rootFrost.dotTime(unit, spellId)
+      if bombExp then
+        if bombExp > 1.6 then
+          return false
+        end
+      end
+    else
+      return false
+    end
+  end
+  return true
+end
+
+function rootFrost.validTarget(unit)
+  if not UnitIsVisible(unit) then return false end
+  if not UnitExists(unit) then return false end
+  if not (UnitCanAttack("player", unit) == 1) then return false end
+  if UnitIsDeadOrGhost(unit) then return false end
+  local inRange = IsSpellInRange(GetSpellInfo(116), unit) -- Frostbolt
+  if not inRange then return false end
+  if inRange == 0 then return false end
+  if not rootFrost.immuneEvents(unit) then return false end
+  if not rootFrost.interruptEvents(unit) then return false end
+  return true
+end
+
+function rootFrost.bossDotCheck(i, spellId)
+  local bossUnit = "boss"..i
+  if not rootFrost.validTarget(bossUnit) then return false end
+  if not rootFrost.dotCheck(bossUnit, spellId) then return false end
+  return true
+end
+
+function rootFrost.interruptEvents(unit)
+  if UnitBuff("player", 31821) then return true end -- Devo
+  if not unit then unit = "boss1" end
+  local spell = UnitCastingInfo(unit)
+  local stop = false
+  if spell == GetSpellInfo(138763) then stop = true end
+  if spell == GetSpellInfo(137457) then stop = true end
+  if spell == GetSpellInfo(143343) then stop = true end -- Thok
+  if stop then
+    if UnitCastingInfo("player") or UnitChannelInfo("player") then
+      RunMacroText("/stopcasting")
+      return false
+    end
+  end
+  return true
+end
+
+function rootFrost.immuneEvents(unit)
+  if UnitAura(unit,GetSpellInfo(116994))
+		or UnitAura(unit,GetSpellInfo(122540))
+		or UnitAura(unit,GetSpellInfo(123250))
+		or UnitAura(unit,GetSpellInfo(106062))
+		or UnitAura(unit,GetSpellInfo(110945))
+		or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
+    or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
+		then return false end
+  return true
+end
+
+ProbablyEngine.library.register("rootFrost", rootFrost)
