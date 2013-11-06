@@ -590,10 +590,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 },
   {
 	  -- Out of Combat
-    { "Evocation", "modifier.ralt" },
 	  { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
-	  { "Frost Armor", "!player.buff(Frost Armor)" },
-	  { "Conjure Mana Gem", (function() return rootFrost.needsManagem() end) },
-	  { "Summon Water Elemental", (function() return rootFrost.needsPet() end) }
+	  {{
+      { "Evocation", "modifier.ralt" },
+      { "Frost Armor", "!player.buff(Frost Armor)" },
+      { "Conjure Mana Gem", (function() return rootFrost.needsManagem() end) },
+      { "Summon Water Elemental", (function() return rootFrost.needsPet() end) }
+    },"!player.moving"},
   }
 )
