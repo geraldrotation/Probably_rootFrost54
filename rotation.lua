@@ -576,17 +576,16 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   },(function() return rootFrost.immuneEvents("target") end)},
 
   {{
-    { "Frostbolt", (function() return rootFrost.validTarget("target") end) },
-    { "Frostbolt",
-      {
-        "player.moving",
-        "player.buff(Ice Floes)"
-      }
-    },
     { "Ice Lance", "player.buff(Fingers of Frost).duration < 2" },
     { "Fire Blast", "player.moving" },
     { "Ice Lance", "player.moving" },
   },(function() return rootFrost.immuneEvents("target") end)},
+
+  -- Filler
+  {{
+    { "Frostbolt", "!player.moving" },
+    { "Frostbolt", "player.moving" },
+  }, (function() return rootFrost.validTarget("target") end) },
 },
   {
 	  -- Out of Combat
