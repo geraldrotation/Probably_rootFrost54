@@ -288,7 +288,6 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Combat
   -- Interrupts
   { "Counterspell", "modifier.interrupts", "target" },
-  { "Frostjaw", "modifier.interrupts", "target" },
   
 	-- AoE
   {{
