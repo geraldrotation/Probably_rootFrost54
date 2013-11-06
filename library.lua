@@ -258,6 +258,10 @@ function rootFrost.interruptEvents(unit)
   return true
 end
 
+function rootFrost.itemCooldown(itemID)
+  return GetItemCooldown(itemID)
+end
+
 function rootFrost.immuneEvents(unit)
   if UnitAura(unit,GetSpellInfo(116994))
 		or UnitAura(unit,GetSpellInfo(122540))

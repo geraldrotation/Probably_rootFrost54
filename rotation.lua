@@ -24,7 +24,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "!/use healthstone",
     {
       "player.health < 40",
-      (function()return GetItemCooldown(5512) end)
+      "@rootFrost.itemCooldown(5512)"
     }
   },
 	{ "Ice Barrier",
