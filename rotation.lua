@@ -104,7 +104,6 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 			"!player.buff(Alter Time)",
 			"!player.moving",
       "@rootFrost.useGloves"
-      
 		}
 	},
   {{
@@ -247,7 +246,13 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "Frostfire Bolt",
       {
         "player.buff(Brain Freeze)",
-        "!modifier.cooldowns",
+        "player.buff(Alter Time)",
+      }
+    },
+    { "Ice Lance",
+      {
+        "player.buff(Fingers of Frost)",
+        "player.buff(Alter Time)",
       }
     },
     { "Frostfire Bolt",

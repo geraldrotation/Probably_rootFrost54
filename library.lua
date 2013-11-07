@@ -84,7 +84,7 @@ function rootFrost.spellCooldown(spell)
   return 0
 end
 
-function rootFrost.useGloves()
+function rootFrost.useGloves(target)
   local hasEngi = false
   for i=1,9 do
     if select(7,GetProfessionInfo(i)) == 202 then hasEngi = true end
