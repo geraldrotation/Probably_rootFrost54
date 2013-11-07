@@ -151,13 +151,18 @@ function rootFrost.usePot(target)
 	if GetItemCount(76093) < 1 then return false end
 	if GetItemCooldown(76093) ~= 0 then return false end
 	if not ProbablyEngine.condition["modifier.cooldowns"] then return false end
-	if UnitLevel("target") ~= -1 then return false end
-	if ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')] then
-		local ttdest = ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')]['ttdest']
-		local ttdsamp = ProbablyEngine.module.combatTracker.enemy[UnitGUID('target')]['ttdsamples']
-		if (ttdest / ttdsamp) > 30 then return false end
-	end
+	if UnitLevel(target) ~= -1 then return false end
+  if rootFrost.t2d(target) > 30 then return false end
 	return true 
+end
+
+function rootFrost.t2d(target)
+  if ProbablyEngine.module.combatTracker.enemy[UnitGUID(target)] then
+    local ttdest = ProbablyEngine.module.combatTracker.enemy[UnitGUID(target)]['ttdest']
+    local ttdsamp = ProbablyEngine.module.combatTracker.enemy[UnitGUID(target)]['ttdsamples']
+    return (ttdest / ttdsamp)
+	end
+  return 600
 end
 
 function rootFrost.needsManagem(target)
