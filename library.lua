@@ -141,7 +141,7 @@ function rootFrost.numDots()
   return #rootFrost.dots
 end
 
-function rootFrost.usePot()
+function rootFrost.usePot(target)
 	if not (UnitBuff("player", 2825) or
 			UnitBuff("player", 32182) or 
 			UnitBuff("player", 80353) or
@@ -160,14 +160,14 @@ function rootFrost.usePot()
 	return true 
 end
 
-function rootFrost.needsManagem()
+function rootFrost.needsManagem(target)
 	if IsPlayerSpell(56383) then
 		if GetItemCount(81901, nil, true) < 10 then return true end
 	end
 	if GetItemCount(36799, nil, true) < 3 then return true end
 end
 
-function rootFrost.useManagem()
+function rootFrost.useManagem(target)
 	local Max = UnitPowerMax("player")
 	local Mana = 100 * UnitPower("player") / Max
 	if Mana < 70 then

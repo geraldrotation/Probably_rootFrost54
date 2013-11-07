@@ -6,6 +6,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Combat
   -- Interrupts
   { "Counterspell", "modifier.interrupts", "target" },
+  { "Deep Freeze", "modifier.interrupts", "target" },
   
 	-- AoE
   {{
@@ -42,14 +43,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       {
         "modifier.ralt",
         "player.spell(Evocation).casted < 1",
-        "player.spell(114003).exists"
       }
     },
     { "Rune of Power",
       {
         "modifier.ralt",
         "player.spell(Rune of Power).casted < 1",
-        "player.spell(116011).exists"
       },
       "ground"
     },
@@ -79,11 +78,10 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
       {
         "!player.moving",
-        "player.spell(114003).exists",
         "player.spell(Evocation).casted < 1"
       }
     },
-  }, "@rootFrost.interruptEvents()" },
+  }, "@rootFrost.interruptEvents" },
 
 	{ "!/use Potion of the Jade Serpent", "@rootFrost.usePot" },
 	{ "!/use Mana Gem", "@rootFrost.useManagem" },
@@ -118,9 +116,9 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
     { "Icy Veins",
       {
-        "modifier.cooldowns",
         "player.buff(Brain Freeze)",
         "!player.buff(Alter Time)",
+        "modifier.cooldowns",
         "!player.moving",
       }
     },
@@ -150,102 +148,96 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
         "!player.moving",
       }
     },
-    
-    -- Dots
-    { "Nether Tempest",
-      {
-        "!target.debuff(Nether Tempest)",
-      }
-    },
-  },"@rootFrost.immuneEvents(target)"},
+  }, "@rootFrost.immuneEvents" },
 
+  -- Dots
+  { "Nether Tempest", "!target.debuff(Nether Tempest)" },
   { "Nether Tempest",
     {
       "modifier.lcontrol",
       "!mouseover.debuff(Nether Tempest)",
-      "@rootFrost.immuneEvents(mouseover)"
+      "@rootFrost.immuneEvents(target)"
     },
     "mouseover"
   },
-  { "Frost Bomb",
-    "@rootFrost.validTarget(target)"
-  },
+  { "Frost Bomb", "@rootFrost.validTarget"  },
   { "Frost Bomb",
     {
       "modifier.lcontrol",
-      "@rootFrost.validTarget(mouseover)"
+      "@rootFrost.validTarget(target)"
     },
     "mouseover"
   },
-	{ "Living Bomb",
+  { "Living Bomb",
     {
       "player.spell(Living Bomb).casted < 1",
       "@rootFrost.dotCheck(target, 44457)"
-    }
+    }, "target"
   },
-	{ "Living Bomb",
+  { "Living Bomb",
     {
       "modifier.lcontrol",
       "player.spell(Living Bomb).casted < 1",
-      "@rootFrost.dotCheck(mouseover, 44457)"
+      "@rootFrost.dotCheck(target, 44457)"
     },
     "mouseover"
   },
+
   
   -- Boss Dots
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(1, 44457"
+      "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss1"
   },
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(2, 44457)"
+      "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss2"
   },
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(3, 44457)"
+      "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss3"
   },
   { "Living Bomb",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(4, 44457)"
+      "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss4"
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(1, 114923)"
+      "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss1"
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(2, 114923)"
+      "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss2"    
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(3, 114923)"
+      "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss3"
   },
   { "Nether Tempest",
     {
       "modifier.multitarget",
-      "@rootFrost.bossDotCheck(4, 114923)"
+      "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss4"
   },
@@ -304,7 +296,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
     { "Fire Blast", "player.moving" },
     { "Ice Lance", "player.moving" },
-  },"@rootFrost.immuneEvents(target)"},
+  }, "@rootFrost.immuneEvents(target)" },
 
   -- Filler
   {{
@@ -315,14 +307,16 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
         "player.buff(Ice Floes)"
       }
     },
-  }, "@rootFrost.validTarget(target)" },
+  }, "@rootFrost.validTarget" },
 },
 {
   -- Out of Combat
   { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
-  { "Evocation", "modifier.ralt" },
-  { "Frost Armor", "!player.buff(Frost Armor)" },
-  { "Conjure Mana Gem", "@rootFrost.needsManagem" },
-  { "Summon Water Elemental", "!pet.exists" }
+  {{
+    { "Evocation", "modifier.ralt" },
+    { "Frost Armor", "!player.buff(Frost Armor)" },
+    { "Conjure Mana Gem", "@rootFrost.needsManagem" },
+    { "Summon Water Elemental", "!pet.exists" }
+  }, "!player.moving" }
 }
 )
