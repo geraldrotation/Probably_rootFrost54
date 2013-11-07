@@ -130,7 +130,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
         "!player.moving",
       }
     },
-      { "Alter Time", 
+    { "Alter Time", 
       {
         "modifier.cooldowns",
         "!player.buff(Alter Time)",
@@ -253,7 +253,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "Frostfire Bolt",
       {
         "player.buff(Brain Freeze)",
-        "player.spell(Icy Veins).cooldown > 2",
+        "player.spell(Icy Veins).cooldown > 3",
       }
     },
     { "Ice Lance",
