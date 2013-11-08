@@ -16,6 +16,13 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 
   { "Freeze", "modifier.lshift", "ground" },
   { "Ring of Frost", "modifier.rcontrol" },
+  
+  { "!/use G91 Landshark",
+    {
+      "modifier.multitarget",
+      "@rootFrost.checkShark"
+    }
+  },
 	
 	-- Support
   { "pause", "modifier.lalt" },
@@ -25,26 +32,25 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "!/use healthstone",
     {
       "player.health < 40",
-      "@rootFrost.itemCooldown(5512)"
+      "@rootFrost.checkStone"
     }
   },
+  { "Spellsteal", "target.buff(Residue)" },
 	{ "Ice Barrier",
 		{
 			"!player.buff(Alter Time)",
 			"!player.buff"
 		}
 	},
+  { "Evocation",
+    {
+      "modifier.ralt",
+      "player.spell(Evocation).casted < 1",
+    }
+  },
 
   {{
-    { "Healing Touch", "player.health < 40" },
     { "Summon Water Elemental", "!pet.exists" },
-    
-    { "Evocation",
-      {
-        "modifier.ralt",
-        "player.spell(Evocation).casted < 1",
-      }
-    },
     { "Rune of Power",
       {
         "modifier.ralt",

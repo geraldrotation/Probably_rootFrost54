@@ -2,73 +2,96 @@ local rootFrost = { }
 
 rootFrost.dots = { }
 rootFrost.blacklist = { }
-
+rootFrost.items = { }
+rootFrost.flagged = GetTime()
+rootFrost.unflagged = GetTime()
 rootFrost.tempNum = 0
 
-rootFrost.eventHandler = function(self, event, ...)
-	if event == "PLAYER_REGEN_ENABLED" or event == "PLAYER_REGEN_DISABLED" then
-		if #rootFrost.dots > 0 then rootFrost.dots = {} end
-    if #rootFrost.blacklist > 0 then rootFrost.blacklist = {} end
-	end
-  if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-    local subEvent		= select(2, ...)
-		local source		= select(5, ...)
-		local destGUID		= select(8, ...)
-		local spellID		= select(12, ...)
-    local failedType = select(15, ...)
+rootFrost.resetLists = function (self, ...)
+  if #rootFrost.dots > 0 then rootFrost.dots = {} end
+  if #rootFrost.blacklist > 0 then rootFrost.blacklist = {} end
+end
+
+rootFrost.setFlagged = function (self, ...)
+  rootFrost.flagged = GetTime()
+end
+
+rootFrost.setUnflagged = function (self, ...)
+  rootFrost.unflagged = GetTime()
+  if rootFrost.items[77589] then
+    rootFrost.items[77589].exp = rootFrost.unflagged + 60
+  end
+end
+
+rootFrost.eventHandler = function(self, ...)
+  local subEvent		= select(1, ...)
+  local source		= select(4, ...)
+  local destGUID		= select(7, ...)
+  local spellID		= select(11, ...)
+  local failedType = select(14, ...)
+  
+  if subEvent == "UNIT_DIED" then
+    if #rootFrost.dots > 0 then
+      for i=1,#rootFrost.dots do
+        if rootFrost.dots[i].guid == destGUID then
+          tremove(rootFrost.dots, i)
+          return true
+        end
+      end
+    end
+  end
+  
+  if UnitName("player") == source then
+    if subEvent == "SPELL_CAST_SUCCESS" then
+      if spellID == 6262 then -- Healthstone
+        rootFrost.items[6262] = { lastCast = GetTime() }
+      end
+      if spellID == 124199 then -- Landshark (itemId 77589)
+        rootFrost.items[77589] = { lastCast = GetTime(), exp = 0 }
+      end
+    end
     
-		if subEvent == "UNIT_DIED" then
-			if #rootFrost.dots > 0 then
-				for i=1,#rootFrost.dots do
-					if rootFrost.dots[i].guid == destGUID then
+    if subEvent == "SPELL_AURA_REMOVED" then
+      if spellID == 44457 then
+        for i=1,#rootFrost.dots do
+          if rootFrost.dots[i].guid == destGUID then
             tremove(rootFrost.dots, i)
             return true
           end
-				end
-			end
-		end
-    
-    if UnitName("player") == source then
-      if subEvent == "SPELL_AURA_REMOVED" then
-        if spellID == 44457 then
-          for i=1,#rootFrost.dots do
-            if rootFrost.dots[i].guid == destGUID then
-              tremove(rootFrost.dots, i)
-              return true
-            end
-          end
         end
-      end
-    
-      if subEvent == "SPELL_AURA_APPLIED" then
-        local existingDot = false
-        if spellID == 44457 then
-            for i=1,#rootFrost.dots do
-              if rootFrost.dots[i].guid == destGUID and rootFrost.dots[i].spellID == spellID then
-                rootFrost.dots[i].spellTime = GetTime()
-                existingDot = true
-              end
-            end
-            if not existingDot then
-              table.insert(rootFrost.dots, {guid = destGUID, spellID = spellID, spellTime = GetTime()})
-            end
-        end
-      end
-      
-      if subEvent == "SPELL_CAST_FAILED" then
-        if failedType and failedType == "Invalid target" then
-          if spellID == 44457 or spellID == 114923 then
-            rootFrost.blacklist[destGUID] = spellTime
-          end
-        end 
       end
     end
-
+  
+    if subEvent == "SPELL_AURA_APPLIED" then
+      local existingDot = false
+      if spellID == 44457 then
+          for i=1,#rootFrost.dots do
+            if rootFrost.dots[i].guid == destGUID and rootFrost.dots[i].spellID == spellID then
+              rootFrost.dots[i].spellTime = GetTime()
+              existingDot = true
+            end
+          end
+          if not existingDot then
+            table.insert(rootFrost.dots, {guid = destGUID, spellID = spellID, spellTime = GetTime()})
+          end
+      end
+    end
+    
+    if subEvent == "SPELL_CAST_FAILED" then
+      if failedType and failedType == "Invalid target" then
+        if spellID == 44457 or spellID == 114923 then
+          rootFrost.blacklist[destGUID] = spellTime
+        end
+      end 
+    end
   end
 end
 
 ProbablyEngine.listener.register("rootFrost", "COMBAT_LOG_EVENT_UNFILTERED", rootFrost.eventHandler)
---not yet ProbablyEngine.library.register("rootFrost", rootFrost)
+ProbablyEngine.listener.register("rootFrost", "PLAYER_REGEN_DISABLED", rootFrost.setFlagged)
+ProbablyEngine.listener.register("rootFrost", "PLAYER_REGEN_DISABLED", rootFrost.resetLists)
+ProbablyEngine.listener.register("rootFrost", "PLAYER_REGEN_DISABLED", rootFrost.setUnflagged)
+ProbablyEngine.listener.register("rootFrost", "PLAYER_REGEN_ENABLED", rootFrost.resetLists)
 
 function rootFrost.spellCooldown(spell)
   local spellName = GetSpellInfo(spell)
@@ -277,6 +300,24 @@ function rootFrost.immuneEvents(unit)
     or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
 		then return false end
   return true
+end
+
+function rootFrost.checkStone(target)
+  if GetItemCount(6262, false, true) > 0 then
+    if not rootFrost.items[6262] then
+      return true
+    elseif (GetTime() - rootFrost.items[6262].lastCast) > 120 then
+      return true
+    end
+  end
+end
+
+function rootFrost.checkShark(target)
+  if GetItemCount(77589, false, false) > 0 then
+    if not rootFrost.items[77589] then return true end
+    if rootFrost.items[77589].exp ~= 0 and
+      rootFrost.items[77589].exp < GetTime() then return true end
+  end
 end
 
 ProbablyEngine.library.register("rootFrost", rootFrost)
