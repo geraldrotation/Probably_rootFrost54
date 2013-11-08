@@ -31,7 +31,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 	{ "Ice Barrier",
 		{
 			"!player.buff(Alter Time)",
-			"!player.buff(Ice Barrier)"
+			"!player.buff"
 		}
 	},
 
@@ -89,7 +89,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   --Cooldowns
   { "Alter Time",
     {
-      "player.buff(Alter Time)",
+      "player.buff",
       "player.moving"
     }
   },
@@ -132,7 +132,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "Alter Time", 
       {
         "modifier.cooldowns",
-        "!player.buff(Alter Time)",
+        "!player.buff",
         "player.buff(Icy Veins)",
         "player.buff(Brain Freeze)",
         "!player.moving",
@@ -141,7 +141,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "Alter Time", 
       {
         "modifier.cooldowns",
-        "!player.buff(Alter Time)",
+        "!player.buff",
         "player.buff(Icy Veins)",
         "player.buff(Fingers of Frost).count > 1",
         "!player.moving",
@@ -150,12 +150,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   }, "@rootFrost.immuneEvents" },
 
   -- Dots
-  { "Nether Tempest", "!target.debuff(Nether Tempest)" },
+  { "Nether Tempest", "!target.debuff" },
   { "Nether Tempest",
     {
       "modifier.lcontrol",
-      "!mouseover.debuff(Nether Tempest)",
-      "@rootFrost.immuneEvents(target)"
+      "!mouseover.debuff",
+      "@rootFrost.immuneEvents"
     },
     "mouseover"
   },
@@ -316,10 +316,10 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 },
 {
   -- Out of Combat
-  { "Arcane Brilliance", "!player.buff(Arcane Brilliance)" },
+  { "Arcane Brilliance", "!player.buff" },
   {{
     { "Evocation", "modifier.ralt" },
-    { "Frost Armor", "!player.buff(Frost Armor)" },
+    { "Frost Armor", "!player.buff" },
     { "Conjure Mana Gem", "@rootFrost.needsManagem" },
     { "Summon Water Elemental", "!pet.exists" }
   }, "!player.moving" }
