@@ -83,6 +83,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       },
     },
       {
+        "player.spell(12051).exists",
         "!player.moving",
         "player.spell(Evocation).casted < 1"
       }
