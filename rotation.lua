@@ -90,6 +90,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
   }, "@rootFrost.interruptEvents" },
 
+	{ "!/use Potion of the Jade Serpent", "@rootFrost.usePot" },
 	{ "!/use Mana Gem", "@rootFrost.useManagem" },
   
   --Cooldowns
@@ -99,58 +100,61 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       "player.moving"
     }
   },
+	{ "Presence of Mind", "modifier.cooldowns" },
+  { "Lifeblood", "modifier.cooldowns" },
+  { "Berserking", "modifier.cooldowns" },
+  { "Blood Fury", "modifier.cooldowns" },
+  { "Mirror Image", "modifier.cooldowns" },
+  { "#gloves",
+		{
+			"modifier.cooldowns",
+			"!player.buff(Alter Time)",
+			"!player.moving",
+      "@rootFrost.useGloves"
+		}
+	},
   {{
-    { "Presence of Mind", "modifier.cooldowns" },
-    { "Mirror Image", "modifier.cooldowns" },  
-    { "Lifeblood", "player.spell(121279).exists" },
-    { "Berserking", "player.spell(26297).exists" },
-    { "Blood Fury", "player.spell(33702).exists" },
-    { "!/use Potion of the Jade Serpent", "@rootFrost.usePot" },
-    { "#gloves",
+    { "Frozen Orb",
       {
-        "!player.buff(Alter Time)",
         "!player.moving",
-        "@rootFrost.useGloves"
+        "modifier.cooldowns",
       }
     },
-    {{
-      { "Frozen Orb",
-        {
-          "!player.moving",
-        }
-      },
-      { "Icy Veins",
-        {
-          "player.buff(Brain Freeze)",
-          "!player.buff(Alter Time)",
-          "!player.moving",
-        }
-      },
-      { "Icy Veins",
-        {
-          "player.buff(Fingers of Frost)",
-          "!player.buff(Alter Time)",
-          "!player.moving",
-        }
-      },
-      { "Alter Time", 
-        {
-          "!player.buff",
-          "player.buff(Icy Veins)",
-          "player.buff(Brain Freeze)",
-          "!player.moving",
-        }
-      },
-      { "Alter Time", 
-        {
-          "!player.buff",
-          "player.buff(Icy Veins)",
-          "player.buff(Fingers of Frost).count > 1",
-          "!player.moving",
-        }
-      },
-    }, "@rootFrost.immuneEvents" }
-  }, "modifier.cooldowns" },
+    { "Icy Veins",
+      {
+        "player.buff(Brain Freeze)",
+        "!player.buff(Alter Time)",
+        "modifier.cooldowns",
+        "!player.moving",
+      }
+    },
+    { "Icy Veins",
+      {
+        "modifier.cooldowns",
+        "player.buff(Fingers of Frost)",
+        "!player.buff(Alter Time)",
+        "!player.moving",
+      }
+    },
+    { "Alter Time", 
+      {
+        "modifier.cooldowns",
+        "!player.buff",
+        "player.buff(Icy Veins)",
+        "player.buff(Brain Freeze)",
+        "!player.moving",
+      }
+    },
+    { "Alter Time", 
+      {
+        "modifier.cooldowns",
+        "!player.buff",
+        "player.buff(Icy Veins)",
+        "player.buff(Fingers of Frost).count > 1",
+        "!player.moving",
+      }
+    },
+  }, "@rootFrost.immuneEvents" },
 
   -- Dots
   { "Nether Tempest", "!target.debuff" },
