@@ -8,7 +8,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Counterspell", "modifier.interrupts", "target" },
   { "Deep Freeze", "modifier.interrupts", "target" },
   
-	-- AoE
+  -- AoE
   {{
     { "Flamestrike", "modifier.rshift", "ground" },
     { "Blizzard", "modifier.rshift", "ground" },
@@ -19,14 +19,14 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   
   { "!/use G91 Landshark",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.checkShark"
     }
   },
-	
-	-- Support
+  
+  -- Support
   { "pause", "modifier.lalt" },
-  { "Ice Block", "player.health < 35" },
+  { "Ice Block", "player.health < 20" },
   { "Cold Snap", "player.health <= 30" },
   { "Arcane Torrent", "player.mana < 92" },
   { "!/use healthstone",
@@ -35,13 +35,14 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       "@rootFrost.checkStone"
     }
   },
+  { "Spellsteal", "target.buff(Rage of the Empress)" },
   { "Spellsteal", "target.buff(Residue)" },
-	{ "Ice Barrier",
-		{
-			"!player.buff(Alter Time)",
-			"!player.buff"
-		}
-	},
+  { "Ice Barrier",
+    {
+      "!player.buff(Alter Time)",
+      "!player.buff"
+    }
+  },
   { "Evocation",
     {
       "modifier.ralt",
@@ -90,7 +91,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
   }, "@rootFrost.interruptEvents" },
 
-	{ "!/use Mana Gem", "@rootFrost.useManagem" },
+  { "!/use Mana Gem", "@rootFrost.useManagem" },
   
   --Cooldowns
   { "Alter Time",
@@ -189,56 +190,63 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Boss Dots
   { "Living Bomb",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss1"
   },
   { "Living Bomb",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
+      "@rootFrost.bossDotCheck(target, 44457)",
+    },
+    "focus"
+  },
+  { "Living Bomb",
+    {
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss2"
   },
   { "Living Bomb",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss3"
   },
   { "Living Bomb",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss4"
   },
   { "Nether Tempest",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss1"
   },
   { "Nether Tempest",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss2"    
   },
   { "Nether Tempest",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss3"
   },
   { "Nether Tempest",
     {
-      "modifier.multitarget",
+      "toggle.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss4"
