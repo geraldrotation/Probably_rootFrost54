@@ -198,13 +198,6 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
-    "focus"
-  },
-  { "Living Bomb",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 44457)"
-    },
     "boss2"
   },
   { "Living Bomb",
