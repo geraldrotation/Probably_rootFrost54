@@ -19,7 +19,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   
   { "!/use G91 Landshark",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.checkShark"
     }
   },
@@ -29,14 +29,13 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Ice Block", "player.health < 20" },
   { "Cold Snap", "player.health <= 30" },
   { "Arcane Torrent", "player.mana < 92" },
-  { "!/use healthstone",
+  { "!/use Healthstone",
     {
       "player.health < 40",
       "@rootFrost.checkStone"
     }
   },
-  { "Spellsteal", "target.buff(Rage of the Empress)" },
-  { "Spellsteal", "target.buff(Residue)" },
+  { "Spellsteal", "target.dispellable" },
   { "Ice Barrier",
     {
       "!player.buff(Alter Time)",
@@ -46,10 +45,9 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "Evocation",
     {
       "modifier.ralt",
-      "player.spell(Evocation).casted < 1",
+      "player.spell(Evocation).casted < 1"
     }
   },
-
   {{
     { "Summon Water Elemental", "!pet.exists" },
     { "Rune of Power",
@@ -190,63 +188,63 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Boss Dots
   { "Living Bomb",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss1"
   },
   { "Living Bomb",
     {
-      "toggle.multitarget",
-      "@rootFrost.bossDotCheck(target, 44457)",
+      "modifier.multitarget",
+      "@rootFrost.bossDotCheck(target, 44457)"
     },
     "focus"
   },
   { "Living Bomb",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss2"
   },
   { "Living Bomb",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss3"
   },
   { "Living Bomb",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 44457)"
     },
     "boss4"
   },
   { "Nether Tempest",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss1"
   },
   { "Nether Tempest",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss2"    
   },
   { "Nether Tempest",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss3"
   },
   { "Nether Tempest",
     {
-      "toggle.multitarget",
+      "modifier.multitarget",
       "@rootFrost.bossDotCheck(target, 114923)"
     },
     "boss4"

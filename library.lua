@@ -209,11 +209,26 @@ function rootFrost.useManagem(target)
 end
 
 function rootFrost.dotTime(unit, spellId)
-  local debuffTime = select(7,UnitDebuff(unit,GetSpellInfo(spellId)))
-  if debuffTime then
-    return debuffTime - GetTime()
+  local debuff, count, expires, caster = rootFrost.unitDebuff(unit, spellId)
+  if expires and caster == "player" then
+    return expires - GetTime()
   end
   return 0
+end
+
+function rootFrost.unitDebuff(target, spell)
+  local debuff, count, caster, expires, spellID
+  if tonumber(spell) then
+    local i = 0; local go = true
+    while i <= 40 and go do
+      i = i + 1
+      debuff,_,_,count,_,_,expires,caster,_,_,spellID = _G['UnitDebuff'](target, i)
+      if spellID == tonumber(spell) and caster == "player" then go = false end
+    end
+  else
+    debuff,_,_,count,_,_,expires,caster = _G['UnitDebuff'](target, spell)
+  end
+  return debuff, count, expires, caster
 end
 
 function rootFrost.dotCheck(unit, spellId)
@@ -262,8 +277,8 @@ function rootFrost.validTarget(unit)
   return true
 end
 
-function rootFrost.bossDotCheck(i, spellId)
-  local bossUnit = "boss"..i
+function rootFrost.bossDotCheck(unit, spellId)
+  local bossUnit = unit
   if not rootFrost.validTarget(bossUnit) then return false end
   if not rootFrost.dotCheck(bossUnit, spellId) then return false end
   return true
