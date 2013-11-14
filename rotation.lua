@@ -248,6 +248,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "Frostfire Bolt",
       {
         "player.buff(Brain Freeze)",
+        "!modifier.cooldowns"
+      }
+    },
+    { "Frostfire Bolt",
+      {
+        "player.buff(Brain Freeze)",
         "player.buff(Alter Time)",
       }
     },
@@ -261,6 +267,12 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       {
         "player.buff(Brain Freeze)",
         "player.spell(Icy Veins).cooldown > 3",
+      }
+    },
+    { "Ice Lance",
+      {
+        "player.buff(Fingers of Frost)",
+        "player.buff(Alter Time)"
       }
     },
     { "Ice Lance",
@@ -318,7 +330,18 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
 },
 {
   -- Out of Combat
-  { "Arcane Brilliance", "!player.buff" },
+  { "1459", -- Arcane Brilliance
+    {
+      "!player.buff(116781).any",
+      "!player.buff(17007).any",
+      "!player.buff(1459).any",
+      "!player.buff(61316).any",
+      "!player.buff(24604).any",
+      "!player.buff(90309).any",
+      "!player.buff(126373).any",
+      "!player.buff(126309).any"
+    }
+  },
   {{
     { "Evocation", "modifier.ralt" },
     { "Frost Armor", "!player.buff" },
