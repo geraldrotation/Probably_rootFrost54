@@ -35,7 +35,6 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       "@rootFrost.checkStone"
     }
   },
-  { "Spellsteal", "target.dispellable" },
   { "Ice Barrier",
     {
       "!player.buff(Alter Time)",
