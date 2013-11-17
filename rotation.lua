@@ -5,19 +5,19 @@
 ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Combat
   -- Interrupts
-  { "Counterspell", "modifier.interrupts", "target" },
-  { "Deep Freeze", "modifier.interrupts", "target" },
+  { "2139", "modifier.interrupts", "target" },
+  { "44572", "modifier.interrupts", "target" },
   
   -- AoE
   {{
-    { "Flamestrike", "modifier.rshift", "ground" },
-    { "Blizzard", "modifier.rshift", "ground" },
+    { "2120", "modifier.rshift", "ground" },
+    { "10", "modifier.rshift", "ground" },
   }, "@rootFrost.interruptEvents" },
 
-  { "Freeze", "modifier.lshift", "ground" },
-  { "Ring of Frost", "modifier.rcontrol" },
+  { "33395", "modifier.lshift", "ground" },
+  { "113724", "modifier.rcontrol" },
   
-  { "!/use G91 Landshark",
+  { "!/run UseItemByName(77589)",
     {
       "modifier.multitarget",
       "@rootFrost.checkShark"
@@ -26,124 +26,126 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   
   -- Support
   { "pause", "modifier.lalt" },
-  { "Ice Block", "player.health < 20" },
-  { "Cold Snap", "player.health <= 30" },
-  { "Arcane Torrent", "player.mana < 92" },
-  { "!/use Healthstone",
+  { "45438", "player.health < 20" },
+  { "11958", "player.health <= 30" },
+  { "!/run UseItemByName(5512)",
     {
       "player.health < 40",
       "@rootFrost.checkStone"
     }
   },
-  { "Ice Barrier",
+  { "11426",
     {
-      "!player.buff(Alter Time)",
+      "!player.buff(110909)",
       "!player.buff"
     }
   },
-  { "Evocation",
+  { "12051",
     {
       "modifier.ralt",
-      "player.spell(Evocation).casted < 1"
+      "player.spell(12051).casted < 1"
     }
   },
   {{
-    { "Summon Water Elemental", "!pet.exists" },
-    { "Rune of Power",
+    { "31687", "!pet.exists" },
+    { "116011",
       {
         "modifier.ralt",
-        "player.spell(Rune of Power).casted < 1",
+        "player.spell(116011).casted < 1",
       },
       "ground"
     },
     {{
-      { "Evocation",
+      { "12051",
         {
-          "!player.buff(Invoker's Energy)",
-          "player.spell(Evocation).casted < 1"
+          "!player.buff(116257)",
+          "player.spell(12051).casted < 1"
         }
       },
-      { "Evocation",
+      { "12051",
         {
           "player.mana < 20",
-          "!player.spell.cooldown(Icy Veins)",
-          "!player.buff(Alter Time)",
-          "player.spell(Evocation).casted < 1"
+          "!player.spell.cooldown(131078)",
+          "!player.buff(110909)",
+          "player.spell(12051).casted < 1"
         }
       },
-      { "Evocation",
+      { "12051",
         {
           "player.buff(Invoker's Energy).duration < 1",
-          "!player.spell.cooldown(Icy Veins)",
-          "!player.buff(Alter Time)",
-          "player.spell(Evocation).casted < 1"
+          "!player.spell.cooldown(131078)",
+          "!player.buff(110909)",
+          "player.spell(12051).casted < 1"
         }
       },
     },
       {
         "player.spell(114003).exists",
         "!player.moving",
-        "player.spell(Evocation).casted < 1"
+        "player.spell(12051).casted < 1"
       }
     },
   }, "@rootFrost.interruptEvents" },
 
-  { "!/use Mana Gem", "@rootFrost.useManagem" },
+  { "!/run UseItemByName(36799)", "@rootFrost.useManagem" },
   
   --Cooldowns
-  { "Alter Time",
+  { "108978",
     {
       "player.buff",
       "player.moving"
     }
   },
   {{
-    { "Presence of Mind", "modifier.cooldowns" },
-    { "Mirror Image", "modifier.cooldowns" },  
-    { "Lifeblood", "player.spell(121279).exists" },
-    { "Berserking", "player.spell(26297).exists" },
-    { "Blood Fury", "player.spell(33702).exists" },
-    { "!/use Potion of the Jade Serpent", "@rootFrost.usePot" },
+    { "12043" },
+    { "55342" },  
+    { "121279", "player.spell(121279).exists" },
+    { "26297", "player.spell(26297).exists" },
+    { "20572", "player.spell(20572).exists" },
+    { "33697", "player.spell(33697).exists" },
+    { "33702", "player.spell(33702).exists" },
+    { "123904", "player.spell(123904).exists" },
+    { "!/run UseItemByName(76093)", "@rootFrost.usePot" },
     { "#gloves",
       {
-        "!player.buff(Alter Time)",
+        "!player.buff(110909)",
         "!player.moving",
         "@rootFrost.useGloves"
       }
     },
     {{
-      { "Frozen Orb",
+      { "84714",
         {
           "!player.moving",
         }
       },
-      { "Icy Veins",
+      { "131078",
         {
-          "player.buff(Brain Freeze)",
-          "!player.buff(Alter Time)",
+          "player.buff(57761)",
+          "!player.buff(110909)",
           "!player.moving",
         }
       },
-      { "Icy Veins",
+      { "131078",
         {
-          "player.buff(Fingers of Frost)",
-          "!player.buff(Alter Time)",
+          "player.buff(44544)",
+          "!player.buff(110909)",
           "!player.moving",
         }
       },
-      { "Alter Time", 
+      { "108978", 
         {
           "!player.buff",
-          "player.buff(Icy Veins)",
-          "player.buff(Brain Freeze)",
+          "player.buff(131078)",
+          "player.buff(57761)",
           "!player.moving",
         }
       },
-      { "Alter Time", 
+      { "108978", 
         {
           "!player.buff",
-          "player.buff(Icy Veins)",
-          "player.buff(Fingers of Frost).count > 1",
+          "player.buff(131078)",
+          "player.buff(44544).count > 1",
           "!player.moving",
         }
       },
@@ -151,154 +153,164 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   }, "modifier.cooldowns" },
 
   -- Dots
-  { "Nether Tempest", "!target.debuff" },
-  { "Nether Tempest",
-    {
-      "modifier.lcontrol",
-      "!mouseover.debuff",
-      "@rootFrost.immuneEvents"
+  {{
+    { "114923", "!target.debuff" },
+    { "114923",
+      {
+        "modifier.lcontrol",
+        "!mouseover.debuff",
+        "@rootFrost.immuneEvents"
+      },
+      "mouseover"
     },
-    "mouseover"
-  },
-  { "Frost Bomb", "@rootFrost.validTarget"  },
-  { "Frost Bomb",
-    {
-      "modifier.lcontrol",
-      "@rootFrost.validTarget(target)"
+  }, "player.spell(114923).exists" },
+  {{
+    { "112948", "@rootFrost.validTarget"  },
+    { "112948",
+      {
+        "modifier.lcontrol",
+        "@rootFrost.validTarget(target)"
+      },
+      "mouseover"
     },
-    "mouseover"
-  },
-  { "Living Bomb",
-    {
-      "player.spell(Living Bomb).casted < 1",
-      "@rootFrost.dotCheck(target, 44457)"
-    }, "target"
-  },
-  { "Living Bomb",
-    {
-      "modifier.lcontrol",
-      "player.spell(Living Bomb).casted < 1",
-      "@rootFrost.dotCheck(target, 44457)"
+  }, "player.spell(112948).exists" },
+  {{
+    { "44457",
+      {
+        "player.spell(44457).casted < 1",
+        "@rootFrost.dotCheck(target, 44457)"
+      }, "target"
     },
-    "mouseover"
-  },
+    { "44457",
+      {
+        "modifier.lcontrol",
+        "player.spell(44457).casted < 1",
+        "@rootFrost.dotCheck(target, 44457)"
+      },
+      "mouseover"
+    },
+  }, "player.spell(44457).exists" },
 
   
   -- Boss Dots
-  { "Living Bomb",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 44457)"
+  {{
+    { "44457",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 44457)"
+      },
+      "boss1"
     },
-    "boss1"
-  },
-  { "Living Bomb",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 44457)"
+    { "44457",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 44457)"
+      },
+      "boss2"
     },
-    "boss2"
-  },
-  { "Living Bomb",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 44457)"
+    { "44457",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 44457)"
+      },
+      "boss3"
     },
-    "boss3"
-  },
-  { "Living Bomb",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 44457)"
+    { "44457",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 44457)"
+      },
+      "boss4"
     },
-    "boss4"
-  },
-  { "Nether Tempest",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 114923)"
+  }, "player.spell(44457).exists" },
+  {{
+    { "114923",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 114923)"
+      },
+      "boss1"
     },
-    "boss1"
-  },
-  { "Nether Tempest",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 114923)"
+    { "114923",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 114923)"
+      },
+      "boss2"    
     },
-    "boss2"    
-  },
-  { "Nether Tempest",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 114923)"
+    { "114923",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 114923)"
+      },
+      "boss3"
     },
-    "boss3"
-  },
-  { "Nether Tempest",
-    {
-      "modifier.multitarget",
-      "@rootFrost.bossDotCheck(target, 114923)"
+    { "114923",
+      {
+        "modifier.multitarget",
+        "@rootFrost.bossDotCheck(target, 114923)"
+      },
+      "boss4"
     },
-    "boss4"
-  },
+  }, "player.spell(114923).exists" },
   
   -- Actions
   {{
-    { "Frostfire Bolt",
+    { "44614",
       {
-        "player.buff(Brain Freeze)",
+        "player.buff(57761)",
         "!modifier.cooldowns"
       }
     },
-    { "Frostfire Bolt",
+    { "44614",
       {
-        "player.buff(Brain Freeze)",
-        "player.buff(Alter Time)",
+        "player.buff(57761)",
+        "player.buff(110909)",
       }
     },
-    { "Ice Lance",
+    { "30455",
       {
-        "player.buff(Fingers of Frost)",
-        "player.buff(Alter Time)",
+        "player.buff(44544)",
+        "player.buff(110909)",
       }
     },
-    { "Frostfire Bolt",
+    { "44614",
       {
-        "player.buff(Brain Freeze)",
-        "player.spell(Icy Veins).cooldown > 3",
+        "player.buff(57761)",
+        "player.spell(131078).cooldown > 3",
       }
     },
-    { "Ice Lance",
+    { "30455",
       {
-        "player.buff(Fingers of Frost)",
-        "player.buff(Alter Time)"
+        "player.buff(44544)",
+        "player.buff(110909)"
       }
     },
-    { "Ice Lance",
+    { "30455",
       {
-        "player.buff(Fingers of Frost)",
-        "player.buff(Frozen Thoughts)",
+        "player.buff(44544)",
+        "player.buff(146557)",
       }
     },
-    { "Ice Lance",
+    { "30455",
       {
-        "player.buff(Fingers of Frost).count > 1",
+        "player.buff(44544).count > 1",
         "!modifier.cooldowns",
       }
     },
-    { "Ice Lance",
+    { "30455",
       {
-        "player.buff(Fingers of Frost).count > 1",
-        "player.spell(Icy Veins).cooldown > 2",
+        "player.buff(44544).count > 1",
+        "player.spell(131078).cooldown > 2",
       }
     },
-    { "Ice Lance",
+    { "30455",
       {
-        "player.buff(Fingers of Frost)",
-        "player.buff(Fingers of Frost).duration < 2",
+        "player.buff(44544)",
+        "player.buff(44544).duration < 2",
       }
     },
-    { "Ice Floes",
+    { "108839",
       {
         "player.moving",
       }
@@ -306,23 +318,23 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   },"@rootFrost.immuneEvents(target)"},
 
   {{
-    { "Ice Lance",
+    { "30455",
       {
-        "player.buff(Fingers of Frost)",
-        "player.buff(Fingers of Frost).duration < 2"
+        "player.buff(44544)",
+        "player.buff(44544).duration < 2"
       }
     },
-    { "Fire Blast", "player.moving" },
-    { "Ice Lance", "player.moving" },
+    { "2136", "player.moving" },
+    { "30455", "player.moving" },
   }, "@rootFrost.immuneEvents(target)" },
 
   -- Filler
   {{
-    { "Frostbolt", "!player.moving" },
-    { "Frostbolt",
+    { "116", "!player.moving" },
+    { "116",
       {
         "player.moving",
-        "player.buff(Ice Floes)"
+        "player.buff(108839)"
       }
     },
   }, "@rootFrost.validTarget" },
@@ -342,10 +354,10 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     }
   },
   {{
-    { "Evocation", "modifier.ralt" },
-    { "Frost Armor", "!player.buff" },
-    { "Conjure Mana Gem", "@rootFrost.needsManagem" },
-    { "Summon Water Elemental", "!pet.exists" }
+    { "12051", "modifier.ralt" },
+    { "7302", "!player.buff" },
+    { "759", "@rootFrost.needsManagem" },
+    { "31687", "!pet.exists" }
   }, "!player.moving" }
 }
 )
