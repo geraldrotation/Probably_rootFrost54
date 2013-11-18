@@ -72,7 +72,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       },
       { "12051",
         {
-          "player.buff(Invoker's Energy).duration < 1",
+          "player.buff(116257).duration < 1",
           "!player.spell.cooldown(131078)",
           "!player.buff(110909)",
           "player.spell(12051).casted < 1"
