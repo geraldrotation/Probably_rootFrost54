@@ -27,11 +27,15 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   -- Support
   { "pause", "modifier.lalt" },
   { "45438", "player.health < 20" },
-  { "11958", "player.health <= 30" },
+  { "11958",
+    {
+      "player.spell(11958).exists",
+      "player.spell(45438).cooldown > 0"
+    }
+  },
   { "#5512",
     {
-      "player.health < 40",
-      "@rootFrost.checkStone"
+      "player.health < 40"
     }
   },
   { "11426",
