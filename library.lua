@@ -6,6 +6,52 @@ rootFrost.items = { }
 rootFrost.flagged = GetTime()
 rootFrost.unflagged = GetTime()
 rootFrost.tempNum = 0
+rootFrost.queueSpell = nil
+rootFrost.queueTime = 0
+
+SLASH_ROOTF1 = "/rootFrost"
+function SlashCmdList.ROOTF(msg, editbox)		
+	local command = msg:match("^(.*)$")
+	if command == "Blink" or command == 1953 then
+		rootFrost.queueSpell = 1953
+	elseif command == "Invisibility" or command == 66 then
+    rootFrost.queueSpell = 66
+  elseif command == "Counterspell" or command == 2139 then
+    rootFrost.queueSpell = 2139
+  elseif command == "Spellsteal" or command == 30449 then
+    rootFrost.queueSpell = 30449
+  elseif command == "Ice Block" or command == 45438 then
+    rootFrost.queueSpell = 45438
+  elseif command == "Evocation" or command == 12051 then
+    rootFrost.queueSpell = 12051
+  elseif command == "Deep Freeze" or command == 44572 then
+    rootFrost.queueSpell = 44572
+  elseif command == "Ring of Frost" or command == 113724 then
+    rootFrost.queueSpell = 113724
+  else
+    rootFrost.queueSpell = nil
+  end
+  if rootFrost.queueSpell ~= nil then rootFrost.queueTime = GetTime() end
+end
+
+rootFrost.checkQueue = function (spellId)
+  if (GetTime() - rootFrost.queueTime) > 4 then
+    rootFrost.queueTime = 0
+    rootFrost.queueSpell = nil
+    return false
+  else
+    if rootFrost.queueSpell then
+      if rootFrost.queueSpell == spellId then
+        if ProbablyEngine.parser.lastCast == GetSpellName(spellId) then
+          rootFrost.queueSpell = nil
+          rootFrost.queueTime = 0
+        end
+        return true
+      end
+    end
+  end
+  return false
+end
 
 rootFrost.resetLists = function (self, ...)
   if #rootFrost.dots > 0 then rootFrost.dots = {} end

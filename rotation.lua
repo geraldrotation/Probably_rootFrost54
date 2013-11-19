@@ -17,7 +17,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "33395", "modifier.lshift", "ground" },
   { "113724", "modifier.rcontrol" },
   
-  { "!/run UseItemByName(77589)",
+  { "#77589",
     {
       "modifier.multitarget",
       "@rootFrost.checkShark"
@@ -28,7 +28,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "pause", "modifier.lalt" },
   { "45438", "player.health < 20" },
   { "11958", "player.health <= 30" },
-  { "!/run UseItemByName(5512)",
+  { "#5512",
     {
       "player.health < 40",
       "@rootFrost.checkStone"
@@ -87,7 +87,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     },
   }, "@rootFrost.interruptEvents" },
 
-  { "!/run UseItemByName(36799)", "@rootFrost.useManagem" },
+  { "#36799", "@rootFrost.useManagem" },
   
   --Cooldowns
   { "108978",
@@ -105,7 +105,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "33697", "player.spell(33697).exists" },
     { "33702", "player.spell(33702).exists" },
     { "123904", "player.spell(123904).exists" },
-    { "!/run UseItemByName(76093)", "@rootFrost.usePot" },
+    { "#76093", "@rootFrost.usePot" },
     { "#gloves",
       {
         "!player.buff(110909)",
