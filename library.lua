@@ -363,16 +363,6 @@ function rootFrost.immuneEvents(unit)
   return true
 end
 
-function rootFrost.checkStone(target)
-  if GetItemCount(6262, false, true) > 0 then
-    if not rootFrost.items[6262] then
-      return true
-    elseif (GetTime() - rootFrost.items[6262].lastCast) > 120 then
-      return true
-    end
-  end
-end
-
 function rootFrost.checkShark(target)
   if GetItemCount(77589, false, false) > 0 then
     if not rootFrost.items[77589] then return true end

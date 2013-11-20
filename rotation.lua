@@ -41,7 +41,8 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "11426",
     {
       "!player.buff(110909)",
-      "!player.buff"
+      "!player.buff",
+      "player.spell(11426).exists"
     }
   },
   { "12051",
