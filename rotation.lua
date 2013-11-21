@@ -102,7 +102,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     }
   },
   {{
-    { "12043" },
+    { "12043", "player.spell(12043).exists" },
     { "55342" },  
     { "121279", "player.spell(121279).exists" },
     { "26297", "player.spell(26297).exists" },
@@ -318,6 +318,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "108839",
       {
         "player.moving",
+        "player.spell(108839).exists"
       }
     },
   },"@rootFrost.immuneEvents(target)"},
