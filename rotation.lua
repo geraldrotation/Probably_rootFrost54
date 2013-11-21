@@ -8,6 +8,16 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "2139", "modifier.interrupts", "target" },
   { "44572", "modifier.interrupts", "target" },
   
+  -- Queued Spells
+  { "1953", "@rootWind.checkQueue(1953)", "player" },
+  { "66", "@rootWind.checkQueue(66)", "player" },
+  { "2139", "@rootWind.checkQueue(2139)" },
+  { "30449", "@rootWind.checkQueue(30449)" },
+  { "45438", "@rootWind.checkQueue(45438)", "player" },
+  { "12051", "@rootWind.checkQueue(12051)", "player" },
+  { "44572", "@rootWind.checkQueue(44572)" },
+  { "113724", "@rootWind.checkQueue(113724)", "ground" },
+  
   -- AoE
   {{
     { "2120", "modifier.rshift", "ground" },
