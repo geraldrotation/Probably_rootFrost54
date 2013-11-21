@@ -40,6 +40,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "11958",
     {
       "player.spell(11958).exists",
+      "player.spell(11958).usable",
       "player.spell(45438).cooldown > 0"
     }
   },
