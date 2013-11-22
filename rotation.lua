@@ -108,9 +108,9 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   --Cooldowns
   { "108978",
     {
-      "player.buff",
+      "player.buff(110909)",
       "player.moving"
-    }
+    }, "player"
   },
   {{
     { "12043", "player.spell(12043).exists" },
@@ -135,35 +135,35 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
           "!player.moving",
         }
       },
-      { "131078",
+      { "12472",
         {
           "player.buff(57761)",
           "!player.buff(110909)",
-          "!player.moving",
-        }
+          "!player.moving"
+        }, "player"
       },
-      { "131078",
+      { "12472",
         {
           "player.buff(44544)",
           "!player.buff(110909)",
-          "!player.moving",
-        }
+          "!player.moving"
+        }, "player"
       },
       { "108978", 
         {
-          "!player.buff",
+          "!player.buff(11090)",
           "player.buff(131078)",
           "player.buff(57761)",
           "!player.moving",
-        }
+        }, "player"
       },
       { "108978", 
         {
-          "!player.buff",
+          "!player.buff(110909)",
           "player.buff(131078)",
           "player.buff(44544).count > 1",
           "!player.moving",
-        }
+        }, "player"
       },
     }, "@rootFrost.immuneEvents" }
   }, "modifier.cooldowns" },

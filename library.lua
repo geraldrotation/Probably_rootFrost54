@@ -9,6 +9,11 @@ rootFrost.tempNum = 0
 rootFrost.queueSpell = nil
 rootFrost.queueTime = 0
 
+function rootFrost.returnTrue()
+  print(true)
+  return true
+end
+
 SLASH_ROOTF1 = "/rootFrost"
 function SlashCmdList.ROOTF(msg, editbox)		
 	local command = msg:match("^(.*)$")
