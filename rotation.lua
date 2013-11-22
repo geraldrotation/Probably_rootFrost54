@@ -60,10 +60,10 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     {
       "modifier.ralt",
       "player.spell(12051).casted < 1"
-    }
+    }, "player"
   },
   {{
-    { "31687", "!pet.exists" },
+    { "31687", "!pet.exists", "player" },
     { "116011",
       {
         "modifier.ralt",
@@ -139,6 +139,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
         {
           "player.buff(57761)",
           "!player.buff(110909)",
+          "player.spell(131078).cooldown = 0",
           "!player.moving"
         }, "player"
       },
@@ -146,12 +147,13 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
         {
           "player.buff(44544)",
           "!player.buff(110909)",
+          "player.spell(131078).cooldown = 0",
           "!player.moving"
         }, "player"
       },
       { "108978", 
         {
-          "!player.buff(11090)",
+          "!player.buff(110909)",
           "player.buff(131078)",
           "player.buff(57761)",
           "!player.moving",
