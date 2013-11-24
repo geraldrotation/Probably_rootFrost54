@@ -17,6 +17,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "12051", "@rootFrost.checkQueue(12051)", "player" },
   { "44572", "@rootFrost.checkQueue(44572)" },
   { "113724", "@rootFrost.checkQueue(113724)", "ground" },
+  { "84714", "@rootFrost.checkQueue(84714)", "player" },
   
   -- AoE
   {{
@@ -54,7 +55,13 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
       "!player.buff(110909)",
       "!player.buff",
       "player.spell(11426).exists"
-    }
+    }, "player"
+  },
+  { "116011",
+    {
+      "modifier.ralt",
+      "player.spell(116011).casted < 1"
+    }, "ground"
   },
   { "12051",
     {
@@ -120,7 +127,6 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "20572", "player.spell(20572).exists" },
     { "33697", "player.spell(33697).exists" },
     { "33702", "player.spell(33702).exists" },
-    { "123904", "player.spell(123904).exists" },
     { "#76093", "@rootFrost.usePot" },
     { "#gloves",
       {
@@ -373,7 +379,13 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     }
   },
   {{
-    { "12051", "modifier.ralt" },
+    { "12051",
+      {
+        "modifier.ralt",
+        "spell.casted < 1"
+      }
+    },
+    { "116011", "modifier.ralt", "ground" },
     { "7302", "!player.buff" },
     { "759", "@rootFrost.needsManagem" },
     { "31687", "!pet.exists" }

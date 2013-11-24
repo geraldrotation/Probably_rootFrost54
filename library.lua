@@ -33,6 +33,8 @@ function SlashCmdList.ROOTF(msg, editbox)
     rootFrost.queueSpell = 44572
   elseif command == "Ring of Frost" or command == 113724 then
     rootFrost.queueSpell = 113724
+  elseif command == "Frozen Orb" or command == 84714 then
+    rootFrost.queueSpell = 84714
   else
     rootFrost.queueSpell = nil
   end
@@ -335,7 +337,32 @@ function rootFrost.bossDotCheck(unit, spellId)
   return true
 end
 
+rootFrost.UnitBuff = function(target, spell, owner)
+  local buff, count, caster, expires, spellID
+  if tonumber(spell) then
+    local i = 0; local go = true
+    while i <= 40 and go do
+      i = i + 1
+      buff,_,_,count,_,_,expires,caster,_,_,spellID = _G['UnitBuff'](target, i)
+      if not owner then
+        if spellID == tonumber(spell) and caster == "player" then go = false end
+      elseif owner == "any" then
+        if spellID == tonumber(spell) then go = false end
+      end
+    end
+  else
+    buff,_,_,count,_,_,expires,caster = _G['UnitBuff'](target, spell)
+  end
+  return buff, count, expires, caster
+end
+
 function rootFrost.interruptEvents(unit)
+  -- local bossId = tonumber(UnitGUID("boss1"):sub(6,10), 16)
+  -- if bossId
+  local thokBuff, thokCount = rootFrost.UnitBuff("target", 143411, "any")
+  if thokCount then
+    if thokCount > 12 then return false end
+  end
   if UnitBuff("player", 31821) then return true end -- Devo
   if not unit then unit = "boss1" end
   local spell = UnitCastingInfo(unit)
