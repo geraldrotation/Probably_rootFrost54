@@ -390,5 +390,4 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
     { "759", "@rootFrost.needsManagem" },
     { "31687", "!pet.exists" }
   }, "!player.moving" }
-}
-)
+})
