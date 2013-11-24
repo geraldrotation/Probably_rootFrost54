@@ -141,7 +141,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
           "!player.moving",
         }
       },
-      { "12472",
+      { "131078",
         {
           "player.buff(57761)",
           "!player.buff(110909)",
@@ -149,7 +149,7 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
           "!player.moving"
         }, "player"
       },
-      { "12472",
+      { "131078",
         {
           "player.buff(44544)",
           "!player.buff(110909)",
