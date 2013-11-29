@@ -113,11 +113,11 @@ ProbablyEngine.rotation.register_custom(64, "rootFrost54", {
   { "#36799", "@rootFrost.useManagem" },
   
   --Cooldowns
-  { "108978",
+  { "!/cancelaura Alter Time",
     {
       "player.buff(110909)",
       "player.moving"
-    }, "player"
+    }
   },
   {{
     { "12043", "player.spell(12043).exists" },
