@@ -233,10 +233,8 @@ function rootFrost.usePot(target)
 end
 
 function rootFrost.t2d(target)
-  if ProbablyEngine.module.combatTracker.enemy[UnitGUID(target)] then
-    local ttdest = ProbablyEngine.module.combatTracker.enemy[UnitGUID(target)]['ttdest']
-    local ttdsamp = ProbablyEngine.module.combatTracker.enemy[UnitGUID(target)]['ttdsamples']
-    return (ttdest / ttdsamp)
+  if ProbablyEngine.condition["deathin"](target) then
+    return ProbablyEngine.condition["deathin"](target)
 	end
   return 600
 end
